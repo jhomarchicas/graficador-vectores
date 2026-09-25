@@ -12,16 +12,52 @@
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     >
+
+    <style>
+        canvas {
+            display: block;
+            max-width: 100%;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+
+        .vector-input {
+            width: 100%;
+            min-width: 70px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 7px 9px;
+            outline: none;
+            background: white;
+            transition: .2s;
+        }
+
+        .vector-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, .15);
+        }
+
+        @media (max-width: 640px) {
+            .vector-input {
+                min-width: 80px;
+                padding: 6px 7px;
+                font-size: 13px;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-slate-100 text-slate-800">
+<body class="bg-slate-100 text-slate-800 min-h-screen">
 
     <!-- NAVBAR -->
     <nav class="bg-slate-900 text-white">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
 
             <div>
-                <h1 class="text-xl font-bold">
+                <h1 class="text-lg sm:text-xl font-bold">
                     <i class="bi bi-vector-pen mr-2"></i>
                     VectorLab
                 </h1>
@@ -31,7 +67,7 @@
                 </p>
             </div>
 
-            <span class="text-sm text-slate-300">
+            <span class="hidden sm:block text-sm text-slate-300">
                 Física
             </span>
 
@@ -40,370 +76,249 @@
 
 
     <!-- CONTENIDO -->
-    <main class="max-w-7xl mx-auto px-6 py-8">
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
 
         <!-- ENCABEZADO -->
-        <div class="mb-8">
+        <div class="mb-6 sm:mb-8">
 
-            <p class="text-blue-600 font-semibold text-sm uppercase tracking-wider">
+            <p class="text-blue-600 font-semibold text-xs sm:text-sm uppercase tracking-wider">
                 Herramienta interactiva
             </p>
 
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mt-2">
                 Graficador de vectores
             </h2>
 
-            <p class="text-slate-500 mt-2 max-w-2xl">
-                Ingresa el nombre, magnitud, unidad y dirección de cada vector.
-                VectorLab calculará sus componentes y los representará
-                automáticamente en el plano cartesiano.
+            <p class="text-sm sm:text-base text-slate-500 mt-2 max-w-3xl">
+                Agrega tus vectores en la tabla y modifica sus datos cuando quieras.
+                El gráfico y la resultante se actualizarán automáticamente.
             </p>
 
         </div>
 
 
-        <div class="grid lg:grid-cols-3 gap-6">
+        <!-- TABLA DE ENTRADA -->
+        <section class="bg-white rounded-2xl border border-slate-200 overflow-hidden mb-6">
 
-            <!-- PANEL IZQUIERDO -->
-            <div class="space-y-6">
+            <div class="px-4 sm:px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
-                <!-- FORMULARIO -->
-                <div class="bg-white rounded-2xl border border-slate-200 p-6">
-
+                <div>
                     <h3 class="font-bold text-lg">
-                        Agregar vector
+                        Vectores
                     </h3>
 
-                    <p class="text-sm text-slate-500 mt-1 mb-5">
-                        El ángulo se mide desde el eje X positivo.
+                    <p class="text-sm text-slate-500 mt-1">
+                        Puedes editar cualquier dato después de agregarlo.
                     </p>
-
-
-                    <!-- NOMBRE -->
-                    <div class="mb-4">
-
-                        <label class="block text-sm font-semibold mb-2">
-                            Nombre del vector
-                        </label>
-
-                        <input
-                            id="nombreVector"
-                            type="text"
-                            maxlength="25"
-                            placeholder="Ej: F1, Peso, Tensión..."
-                            class="w-full border border-slate-300 rounded-xl
-                                   px-4 py-3 outline-none
-                                   focus:ring-2 focus:ring-blue-500"
-                        >
-
-                        <p class="text-xs text-slate-400 mt-2">
-                            Si lo dejas vacío se asignará V1, V2, V3...
-                        </p>
-
-                    </div>
-
-
-                    <!-- MAGNITUD -->
-                    <div class="mb-4">
-
-                        <label class="block text-sm font-semibold mb-2">
-                            Magnitud
-                        </label>
-
-                        <input
-                            id="magnitud"
-                            type="number"
-                            step="any"
-                            min="0"
-                            placeholder="Ej: 5"
-                            class="w-full border border-slate-300 rounded-xl
-                                   px-4 py-3 outline-none
-                                   focus:ring-2 focus:ring-blue-500"
-                        >
-
-                    </div>
-
-
-                    <!-- UNIDAD -->
-                    <div class="mb-4">
-
-                        <label class="block text-sm font-semibold mb-2">
-                            Unidad
-                        </label>
-
-                        <input
-                            id="unidad"
-                            type="text"
-                            maxlength="12"
-                            value="N"
-                            placeholder="Ej: N"
-                            class="w-full border border-slate-300 rounded-xl
-                                   px-4 py-3 outline-none
-                                   focus:ring-2 focus:ring-blue-500"
-                        >
-
-                        <p class="text-xs text-slate-400 mt-2">
-                            Ejemplos: N, m, m/s, km/h
-                        </p>
-
-                    </div>
-
-
-                    <!-- ÁNGULO -->
-                    <div class="mb-5">
-
-                        <label class="block text-sm font-semibold mb-2">
-                            Dirección / Ángulo
-                        </label>
-
-                        <div class="relative">
-
-                            <input
-                                id="angulo"
-                                type="number"
-                                step="any"
-                                placeholder="Ej: 40"
-                                class="w-full border border-slate-300 rounded-xl
-                                       px-4 py-3 pr-10 outline-none
-                                       focus:ring-2 focus:ring-blue-500"
-                            >
-
-                            <span class="absolute right-4 top-3 text-slate-400">
-                                °
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- BOTÓN -->
-                    <button
-                        id="agregarVector"
-                        class="w-full bg-blue-600 hover:bg-blue-700
-                               text-white font-semibold rounded-xl
-                               px-5 py-3 transition"
-                    >
-                        <i class="bi bi-plus-lg mr-2"></i>
-                        Agregar vector
-                    </button>
-
-
-                    <!-- REFERENCIA -->
-                    <div class="mt-5 pt-5 border-t border-slate-200">
-
-                        <p class="text-xs text-slate-500 leading-6">
-                            <strong>Referencia angular</strong><br>
-                            0° → derecha<br>
-                            90° → arriba<br>
-                            180° → izquierda<br>
-                            270° → abajo
-                        </p>
-
-                    </div>
-
                 </div>
 
-
-                <!-- RESULTANTE -->
-                <div class="bg-slate-900 text-white rounded-2xl p-6">
-
-                    <div class="flex items-center gap-3 mb-5">
-
-                        <div class="w-10 h-10 rounded-xl bg-blue-600
-                                    flex items-center justify-center">
-
-                            <i class="bi bi-arrow-up-right text-lg"></i>
-
-                        </div>
-
-                        <div>
-
-                            <p class="text-xs text-slate-400 uppercase">
-                                Resultado
-                            </p>
-
-                            <h3 class="font-bold">
-                                Vector resultante
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="grid grid-cols-2 gap-3">
-
-                        <div class="bg-white/10 rounded-xl p-3">
-                            <p class="text-xs text-slate-400">Rx</p>
-                            <p id="resultadoX" class="font-bold text-lg">
-                                0.00
-                            </p>
-                        </div>
-
-                        <div class="bg-white/10 rounded-xl p-3">
-                            <p class="text-xs text-slate-400">Ry</p>
-                            <p id="resultadoY" class="font-bold text-lg">
-                                0.00
-                            </p>
-                        </div>
-
-                        <div class="bg-white/10 rounded-xl p-3">
-                            <p class="text-xs text-slate-400">Magnitud</p>
-                            <p id="resultadoMagnitud" class="font-bold text-lg">
-                                0.00
-                            </p>
-                        </div>
-
-                        <div class="bg-white/10 rounded-xl p-3">
-                            <p class="text-xs text-slate-400">Dirección</p>
-                            <p id="resultadoAngulo" class="font-bold text-lg">
-                                0.00°
-                            </p>
-                        </div>
-
-                    </div>
-
-                </div>
+                <button
+                    id="agregarVector"
+                    class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl px-5 py-2.5 transition"
+                >
+                    <i class="bi bi-plus-lg mr-2"></i>
+                    Agregar vector
+                </button>
 
             </div>
 
 
-            <!-- PANEL DERECHO -->
-            <div class="lg:col-span-2 space-y-6">
+            <div class="overflow-x-auto">
 
-                <!-- GRÁFICA -->
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                <table class="w-full text-sm min-w-[850px]">
 
-                    <div class="px-6 py-4 border-b border-slate-200
-                                flex flex-wrap gap-3 items-center justify-between">
+                    <thead class="bg-slate-50 text-slate-500">
 
-                        <div>
+                        <tr>
+                            <th class="text-left px-4 py-3">
+                                #
+                            </th>
 
-                            <h3 class="font-bold">
-                                Plano cartesiano
-                            </h3>
+                            <th class="text-left px-4 py-3">
+                                Nombre
+                            </th>
 
-                            <p class="text-sm text-slate-500">
-                                Representación gráfica de los vectores
-                            </p>
+                            <th class="text-left px-4 py-3">
+                                Magnitud
+                            </th>
 
-                        </div>
+                            <th class="text-left px-4 py-3">
+                                Unidad
+                            </th>
+
+                            <th class="text-left px-4 py-3">
+                                Ángulo
+                            </th>
+
+                            <th class="text-left px-4 py-3">
+                                X
+                            </th>
+
+                            <th class="text-left px-4 py-3">
+                                Y
+                            </th>
+
+                            <th class="px-4 py-3"></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tablaVectores"></tbody>
+
+                </table>
+
+            </div>
 
 
-                        <div class="flex flex-wrap gap-2">
+            <div class="px-4 sm:px-6 py-3 bg-slate-50 border-t border-slate-200">
 
-                            <button
-                                id="guardarGrafico"
-                                class="text-sm bg-blue-600 hover:bg-blue-700
-                                       text-white rounded-lg px-4 py-2 transition"
-                            >
-                                <i class="bi bi-download mr-1"></i>
-                                Guardar gráfico
-                            </button>
+                <p class="text-xs text-slate-500">
+                    <i class="bi bi-info-circle mr-1"></i>
+                    Los ángulos se miden desde el eje X positivo:
+                    0° derecha, 90° arriba, 180° izquierda y 270° abajo.
+                </p>
 
-                            <button
-                                id="limpiar"
-                                class="text-sm border border-slate-300
-                                       rounded-lg px-4 py-2
-                                       hover:bg-slate-100 transition"
-                            >
-                                <i class="bi bi-trash3 mr-1"></i>
-                                Limpiar
-                            </button>
+            </div>
 
-                        </div>
+        </section>
 
+
+        <!-- RESULTADO -->
+        <section class="bg-slate-900 text-white rounded-2xl p-4 sm:p-6 mb-6">
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
+
+                <div class="flex items-center gap-3">
+
+                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
+                        <i class="bi bi-arrow-up-right text-lg"></i>
                     </div>
 
-
-                    <div class="p-4">
-
-                        <canvas
-                            id="canvas"
-                            width="900"
-                            height="600"
-                            class="w-full bg-white rounded-xl"
-                        ></canvas>
-
-                    </div>
-
-                </div>
-
-
-                <!-- TABLA -->
-                <div class="bg-white rounded-2xl border border-slate-200">
-
-                    <div class="px-6 py-4 border-b border-slate-200">
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase">
+                            Resultado
+                        </p>
 
                         <h3 class="font-bold">
-                            Vectores agregados
+                            Vector resultante
                         </h3>
-
-                        <p class="text-sm text-slate-500">
-                            Magnitud, dirección y componentes rectangulares
-                        </p>
-
                     </div>
 
-
-                    <div class="overflow-x-auto">
-
-                        <table class="w-full text-sm">
-
-                            <thead class="bg-slate-50 text-slate-500">
-
-                                <tr>
-
-                                    <th class="text-left px-6 py-3">
-                                        Vector
-                                    </th>
-
-                                    <th class="text-left px-6 py-3">
-                                        Magnitud
-                                    </th>
-
-                                    <th class="text-left px-6 py-3">
-                                        Ángulo
-                                    </th>
-
-                                    <th class="text-left px-6 py-3">
-                                        X
-                                    </th>
-
-                                    <th class="text-left px-6 py-3">
-                                        Y
-                                    </th>
-
-                                    <th class="px-6 py-3"></th>
-
-                                </tr>
-
-                            </thead>
+                </div>
 
 
-                            <tbody id="tablaVectores"></tbody>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 w-full md:w-auto">
 
-                        </table>
+                    <div class="bg-white/10 rounded-xl px-3 sm:px-5 py-3">
+                        <p class="text-xs text-slate-400">
+                            Rx
+                        </p>
 
+                        <p id="resultadoX" class="font-bold text-base sm:text-lg whitespace-nowrap">
+                            0.00
+                        </p>
+                    </div>
+
+                    <div class="bg-white/10 rounded-xl px-3 sm:px-5 py-3">
+                        <p class="text-xs text-slate-400">
+                            Ry
+                        </p>
+
+                        <p id="resultadoY" class="font-bold text-base sm:text-lg whitespace-nowrap">
+                            0.00
+                        </p>
+                    </div>
+
+                    <div class="bg-white/10 rounded-xl px-3 sm:px-5 py-3">
+                        <p class="text-xs text-slate-400">
+                            Magnitud
+                        </p>
+
+                        <p id="resultadoMagnitud" class="font-bold text-base sm:text-lg whitespace-nowrap">
+                            0.00
+                        </p>
+                    </div>
+
+                    <div class="bg-white/10 rounded-xl px-3 sm:px-5 py-3">
+                        <p class="text-xs text-slate-400">
+                            Dirección
+                        </p>
+
+                        <p id="resultadoAngulo" class="font-bold text-base sm:text-lg whitespace-nowrap">
+                            0.00°
+                        </p>
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
+
+
+        <!-- GRÁFICO -->
+        <section class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+
+            <div class="px-4 sm:px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+
+                <div>
+                    <h3 class="font-bold">
+                        Plano cartesiano
+                    </h3>
+
+                    <p class="text-sm text-slate-500">
+                        Representación gráfica de los vectores
+                    </p>
+                </div>
+
+
+                <div class="grid grid-cols-2 sm:flex gap-2">
+
+                    <button
+                        id="guardarGrafico"
+                        class="text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-3 sm:px-4 py-2 transition"
+                    >
+                        <i class="bi bi-download mr-1"></i>
+                        Guardar
+                    </button>
+
+                    <button
+                        id="limpiar"
+                        class="text-xs sm:text-sm border border-slate-300 rounded-lg px-3 sm:px-4 py-2 hover:bg-slate-100 transition"
+                    >
+                        <i class="bi bi-trash3 mr-1"></i>
+                        Limpiar
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="p-2 sm:p-4 overflow-x-auto">
+
+                <canvas
+                    id="canvas"
+                    width="1000"
+                    height="650"
+                    class="w-full bg-white rounded-xl"
+                ></canvas>
+
+            </div>
+
+        </section>
 
     </main>
 
 
     <script>
 
-        // =============================================
+        // =====================================================
         // VARIABLES
-        // =============================================
+        // =====================================================
 
         let vectores = [];
+
         let cajasEtiquetas = [];
 
         const canvas =
@@ -412,17 +327,8 @@
         const ctx =
             canvas.getContext('2d');
 
-        const nombreVectorInput =
-            document.getElementById('nombreVector');
-
-        const magnitudInput =
-            document.getElementById('magnitud');
-
-        const unidadInput =
-            document.getElementById('unidad');
-
-        const anguloInput =
-            document.getElementById('angulo');
+        const tabla =
+            document.getElementById('tablaVectores');
 
         const botonAgregar =
             document.getElementById('agregarVector');
@@ -433,9 +339,6 @@
         const botonGuardar =
             document.getElementById('guardarGrafico');
 
-        const tabla =
-            document.getElementById('tablaVectores');
-
 
         const colores = [
             '#2563eb',
@@ -445,263 +348,115 @@
             '#ea580c',
             '#0891b2',
             '#db2777',
-            '#4f46e5'
+            '#4f46e5',
+            '#65a30d',
+            '#c026d3'
         ];
 
 
-        // =============================================
+        // =====================================================
         // AGREGAR VECTOR
-        // =============================================
+        // =====================================================
 
-        botonAgregar.addEventListener(
-            'click',
-            function () {
+        botonAgregar.addEventListener('click', function () {
 
-                let nombre =
-                    nombreVectorInput.value.trim();
+            vectores.push({
+                nombre: obtenerNombreAutomatico(),
+                magnitud: 1,
+                unidad: 'N',
+                angulo: 0,
+                x: 1,
+                y: 0
+            });
 
-                const magnitud =
-                    parseFloat(magnitudInput.value);
+            actualizar();
 
-                const angulo =
-                    parseFloat(anguloInput.value);
+            setTimeout(() => {
 
-                const unidad =
-                    unidadInput.value.trim();
+                const inputs =
+                    tabla.querySelectorAll('.input-nombre');
 
+                if (inputs.length > 0) {
 
-                if (
-                    isNaN(magnitud) ||
-                    magnitud <= 0 ||
-                    isNaN(angulo)
-                ) {
+                    const ultimo =
+                        inputs[inputs.length - 1];
 
-                    alert(
-                        'Ingresa una magnitud y un ángulo válidos.'
-                    );
-
-                    return;
-                }
-
-
-                if (unidad === '') {
-
-                    alert(
-                        'Ingresa la unidad de la magnitud.'
-                    );
-
-                    return;
-                }
-
-
-                // NOMBRE AUTOMÁTICO
-                if (nombre === '') {
-
-                    nombre =
-                        obtenerNombreAutomatico();
+                    ultimo.focus();
+                    ultimo.select();
 
                 }
 
+            }, 20);
 
-                const radianes =
-                    angulo * Math.PI / 180;
-
-
-                const x =
-                    magnitud * Math.cos(radianes);
+        });
 
 
-                const y =
-                    magnitud * Math.sin(radianes);
-
-
-                vectores.push({
-
-                    nombre: nombre,
-
-                    magnitud: magnitud,
-
-                    unidad: unidad,
-
-                    angulo: angulo,
-
-                    x: x,
-
-                    y: y
-
-                });
-
-
-                nombreVectorInput.value = '';
-                magnitudInput.value = '';
-                anguloInput.value = '';
-
-                nombreVectorInput.focus();
-
-
-                actualizar();
-
-            }
-        );
-
-
-        // =============================================
+        // =====================================================
         // NOMBRE AUTOMÁTICO
-        // =============================================
+        // =====================================================
 
         function obtenerNombreAutomatico() {
 
             let numero = 1;
 
-
             while (
                 vectores.some(
                     vector =>
-                        vector.nombre ===
-                        'V' + numero
+                        vector.nombre === 'V' + numero
                 )
             ) {
-
                 numero++;
-
             }
 
-
             return 'V' + numero;
-
         }
 
 
-        // =============================================
-        // ELIMINAR VECTOR
-        // =============================================
+        // =====================================================
+        // ELIMINAR
+        // =====================================================
 
         function eliminarVector(index) {
 
-            vectores.splice(
-                index,
-                1
-            );
+            vectores.splice(index, 1);
 
             actualizar();
 
         }
 
 
-        // =============================================
+        // =====================================================
         // LIMPIAR
-        // =============================================
+        // =====================================================
 
-        botonLimpiar.addEventListener(
-            'click',
-            function () {
+        botonLimpiar.addEventListener('click', function () {
+
+            if (vectores.length === 0) {
+                return;
+            }
+
+            if (
+                confirm(
+                    '¿Quieres eliminar todos los vectores?'
+                )
+            ) {
 
                 vectores = [];
 
                 actualizar();
 
             }
-        );
+
+        });
 
 
-        // =============================================
-        // GUARDAR GRÁFICO
-        // =============================================
-
-        botonGuardar.addEventListener(
-            'click',
-            function () {
-
-                if (vectores.length === 0) {
-
-                    alert(
-                        'Agrega al menos un vector antes de guardar el gráfico.'
-                    );
-
-                    return;
-                }
-
-
-                const exportCanvas =
-                    document.createElement('canvas');
-
-
-                exportCanvas.width = 1000;
-                exportCanvas.height = 720;
-
-
-                const exportCtx =
-                    exportCanvas.getContext('2d');
-
-
-                exportCtx.fillStyle = '#ffffff';
-
-                exportCtx.fillRect(
-                    0,
-                    0,
-                    exportCanvas.width,
-                    exportCanvas.height
-                );
-
-
-                exportCtx.fillStyle = '#0f172a';
-
-                exportCtx.font =
-                    'bold 26px Arial';
-
-
-                exportCtx.fillText(
-                    'Gráfico',
-                    50,
-                    45
-                );
-
-
-                exportCtx.fillStyle = '#64748b';
-
-                exportCtx.font =
-                    '15px Arial';
-
-
-                exportCtx.fillText(
-                    'Vectores',
-                    50,
-                    70
-                );
-
-
-                exportCtx.drawImage(
-                    canvas,
-                    50,
-                    90,
-                    900,
-                    600
-                );
-
-
-                const enlace =
-                    document.createElement('a');
-
-
-                enlace.download =
-                    'grafico-vectores.png';
-
-
-                enlace.href =
-                    exportCanvas.toDataURL('image/png');
-
-
-                enlace.click();
-
-            }
-        );
-
-
-        // =============================================
-        // ACTUALIZAR
-        // =============================================
+        // =====================================================
+        // ACTUALIZAR TODO
+        // =====================================================
 
         function actualizar() {
+
+            recalcularVectores();
 
             actualizarTabla();
 
@@ -712,9 +467,33 @@
         }
 
 
-        // =============================================
+        // =====================================================
+        // RECALCULAR COMPONENTES
+        // =====================================================
+
+        function recalcularVectores() {
+
+            vectores.forEach(function (vector) {
+
+                const radianes =
+                    vector.angulo * Math.PI / 180;
+
+                vector.x =
+                    vector.magnitud *
+                    Math.cos(radianes);
+
+                vector.y =
+                    vector.magnitud *
+                    Math.sin(radianes);
+
+            });
+
+        }
+
+
+        // =====================================================
         // TABLA
-        // =============================================
+        // =====================================================
 
         function actualizarTabla() {
 
@@ -724,11 +503,9 @@
             if (vectores.length === 0) {
 
                 tabla.innerHTML = `
-
                     <tr>
-
                         <td
-                            colspan="6"
+                            colspan="8"
                             class="text-center text-slate-400 py-10"
                         >
 
@@ -738,128 +515,277 @@
                                 Todavía no has agregado vectores.
                             </p>
 
+                            <p class="text-xs mt-1">
+                                Presiona "Agregar vector" para comenzar.
+                            </p>
+
                         </td>
-
                     </tr>
-
                 `;
 
                 return;
             }
 
 
-            vectores.forEach(
-                function (vector, index) {
+            vectores.forEach(function (vector, index) {
 
-                    const color =
-                        colores[
-                            index %
-                            colores.length
-                        ];
-
-
-                    const fila =
-                        document.createElement('tr');
+                const color =
+                    colores[
+                        index %
+                        colores.length
+                    ];
 
 
-                    fila.className =
-                        'border-t border-slate-100';
+                const fila =
+                    document.createElement('tr');
 
 
-                    fila.innerHTML = `
-
-                        <td class="px-6 py-4 font-semibold">
-
-                            <div class="flex items-center gap-2">
-
-                                <span
-                                    class="w-3 h-3 rounded-full shrink-0"
-                                    style="background:${color}"
-                                ></span>
-
-                                ${escaparHTML(vector.nombre)}
-
-                            </div>
-
-                        </td>
+                fila.className =
+                    'border-t border-slate-100';
 
 
-                        <td class="px-6 py-4">
+                fila.innerHTML = `
 
-                            ${formatearNumero(vector.magnitud)}
-                            ${escaparHTML(vector.unidad)}
+                    <td class="px-4 py-3">
 
-                        </td>
+                        <div class="flex items-center gap-2">
 
+                            <span
+                                class="w-3 h-3 rounded-full shrink-0"
+                                style="background:${color}"
+                            ></span>
 
-                        <td class="px-6 py-4">
+                            <span class="font-semibold">
+                                ${index + 1}
+                            </span>
 
-                            ${formatearNumero(normalizarAngulo(vector.angulo))}°
+                        </div>
 
-                        </td>
-
-
-                        <td class="px-6 py-4">
-
-                            ${vector.x.toFixed(2)}
-                            ${escaparHTML(vector.unidad)}
-
-                        </td>
+                    </td>
 
 
-                        <td class="px-6 py-4">
+                    <td class="px-4 py-3">
 
-                            ${vector.y.toFixed(2)}
-                            ${escaparHTML(vector.unidad)}
+                        <input
+                            type="text"
+                            maxlength="25"
+                            value="${escaparAtributo(vector.nombre)}"
+                            class="vector-input input-nombre"
+                            oninput="editarVector(${index}, 'nombre', this.value)"
+                        >
 
-                        </td>
+                    </td>
 
 
-                        <td class="px-6 py-4 text-right">
+                    <td class="px-4 py-3">
 
-                            <button
-                                onclick="eliminarVector(${index})"
-                                class="text-red-500 hover:text-red-700"
-                                title="Eliminar vector"
+                        <input
+                            type="number"
+                            step="any"
+                            min="0.000001"
+                            value="${vector.magnitud}"
+                            class="vector-input"
+                            oninput="editarVector(${index}, 'magnitud', this.value)"
+                        >
+
+                    </td>
+
+
+                    <td class="px-4 py-3">
+
+                        <input
+                            type="text"
+                            maxlength="12"
+                            value="${escaparAtributo(vector.unidad)}"
+                            class="vector-input"
+                            oninput="editarVector(${index}, 'unidad', this.value)"
+                        >
+
+                    </td>
+
+
+                    <td class="px-4 py-3">
+
+                        <div class="relative">
+
+                            <input
+                                type="number"
+                                step="any"
+                                value="${vector.angulo}"
+                                class="vector-input pr-7"
+                                oninput="editarVector(${index}, 'angulo', this.value)"
                             >
 
-                                <i class="bi bi-trash3"></i>
+                            <span
+                                class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                            >
+                                °
+                            </span>
 
-                            </button>
+                        </div>
 
-                        </td>
-
-                    `;
+                    </td>
 
 
-                    tabla.appendChild(
-                        fila
-                    );
+                    <td class="px-4 py-3 whitespace-nowrap font-medium">
 
-                }
-            );
+                        ${vector.x.toFixed(2)}
+                        ${escaparHTML(vector.unidad)}
+
+                    </td>
+
+
+                    <td class="px-4 py-3 whitespace-nowrap font-medium">
+
+                        ${vector.y.toFixed(2)}
+                        ${escaparHTML(vector.unidad)}
+
+                    </td>
+
+
+                    <td class="px-4 py-3 text-right">
+
+                        <button
+                            onclick="eliminarVector(${index})"
+                            class="w-9 h-9 rounded-lg text-red-500 hover:text-white hover:bg-red-500 transition"
+                            title="Eliminar vector"
+                        >
+
+                            <i class="bi bi-trash3"></i>
+
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                tabla.appendChild(fila);
+
+            });
 
         }
 
 
-        // =============================================
-        // RESULTANTE
-        // =============================================
+        // =====================================================
+        // EDITAR VECTOR SIN RECONSTRUIR INPUT
+        // =====================================================
 
-        function calcularResultante() {
+        function editarVector(
+            index,
+            propiedad,
+            valor
+        ) {
+
+            if (!vectores[index]) {
+                return;
+            }
+
+
+            if (
+                propiedad === 'magnitud' ||
+                propiedad === 'angulo'
+            ) {
+
+                const numero =
+                    parseFloat(valor);
+
+
+                if (isNaN(numero)) {
+                    return;
+                }
+
+
+                if (
+                    propiedad === 'magnitud' &&
+                    numero <= 0
+                ) {
+                    return;
+                }
+
+
+                vectores[index][propiedad] =
+                    numero;
+
+            }
+
+            else {
+
+                vectores[index][propiedad] =
+                    valor;
+
+            }
+
+
+            recalcularVectores();
+
+            actualizarComponentesTabla();
+
+            calcularResultante();
+
+            dibujarPlano();
+
+        }
+
+
+        // =====================================================
+        // ACTUALIZAR SOLO X / Y DE TABLA
+        // =====================================================
+
+        function actualizarComponentesTabla() {
+
+            const filas =
+                tabla.querySelectorAll('tr');
+
+
+            vectores.forEach(function (vector, index) {
+
+                const fila =
+                    filas[index];
+
+
+                if (!fila) {
+                    return;
+                }
+
+
+                const celdas =
+                    fila.querySelectorAll('td');
+
+
+                if (celdas.length < 7) {
+                    return;
+                }
+
+
+                celdas[5].innerHTML =
+                    `${vector.x.toFixed(2)} ${escaparHTML(vector.unidad)}`;
+
+
+                celdas[6].innerHTML =
+                    `${vector.y.toFixed(2)} ${escaparHTML(vector.unidad)}`;
+
+            });
+
+        }
+
+
+        // =====================================================
+        // RESULTANTE
+        // =====================================================
+
+        function obtenerResultante() {
 
             let rx = 0;
             let ry = 0;
 
 
-            vectores.forEach(
-                function (vector) {
+            vectores.forEach(function (vector) {
 
-                    rx += vector.x;
-                    ry += vector.y;
+                rx += vector.x;
+                ry += vector.y;
 
-                }
-            );
+            });
 
 
             const magnitud =
@@ -882,15 +808,29 @@
 
 
                 angulo =
-                    normalizarAngulo(
-                        angulo
-                    );
+                    normalizarAngulo(angulo);
 
             }
 
 
+            return {
+                x: rx,
+                y: ry,
+                magnitud: magnitud,
+                angulo: angulo
+            };
+
+        }
+
+
+        function calcularResultante() {
+
+            const resultado =
+                obtenerResultante();
+
+
             const unidad =
-                vectores.length > 0
+                vectores.length
                     ? vectores[0].unidad
                     : '';
 
@@ -898,39 +838,112 @@
             document
                 .getElementById('resultadoX')
                 .textContent =
-                    rx.toFixed(2) +
+                    resultado.x.toFixed(2) +
                     (unidad ? ' ' + unidad : '');
 
 
             document
                 .getElementById('resultadoY')
                 .textContent =
-                    ry.toFixed(2) +
+                    resultado.y.toFixed(2) +
                     (unidad ? ' ' + unidad : '');
 
 
             document
                 .getElementById('resultadoMagnitud')
                 .textContent =
-                    magnitud.toFixed(2) +
+                    resultado.magnitud.toFixed(2) +
                     (unidad ? ' ' + unidad : '');
 
 
             document
                 .getElementById('resultadoAngulo')
                 .textContent =
-                    angulo.toFixed(2) + '°';
+                    resultado.angulo.toFixed(2) +
+                    '°';
 
         }
 
 
-        // =============================================
-        // PLANO CARTESIANO
-        // =============================================
+        // =====================================================
+        // CONFIGURACIÓN DEL PLANO
+        // =====================================================
+
+        function obtenerConfiguracionPlano() {
+
+            let maxX = 1;
+            let maxY = 1;
+
+
+            vectores.forEach(function (vector) {
+
+                maxX =
+                    Math.max(
+                        maxX,
+                        Math.abs(vector.x)
+                    );
+
+                maxY =
+                    Math.max(
+                        maxY,
+                        Math.abs(vector.y)
+                    );
+
+            });
+
+
+            if (vectores.length > 1) {
+
+                const r =
+                    obtenerResultante();
+
+
+                maxX =
+                    Math.max(
+                        maxX,
+                        Math.abs(r.x)
+                    );
+
+
+                maxY =
+                    Math.max(
+                        maxY,
+                        Math.abs(r.y)
+                    );
+
+            }
+
+
+            const maxValor =
+                Math.max(
+                    maxX,
+                    maxY,
+                    1
+                );
+
+
+            return {
+                maxValor: maxValor
+            };
+
+        }
+
+
+        // =====================================================
+        // DIBUJAR PLANO
+        // =====================================================
 
         function dibujarPlano() {
 
             cajasEtiquetas = [];
+
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
 
 
             ctx.fillStyle = '#ffffff';
@@ -950,76 +963,151 @@
                 canvas.height / 2;
 
 
-            let rx = 0;
-            let ry = 0;
+            const configuracion =
+                obtenerConfiguracionPlano();
 
 
-            vectores.forEach(
-                function (vector) {
+            /*
+             * Se utiliza casi todo el espacio disponible.
+             * Solo dejamos un margen suficiente para puntas,
+             * ángulos y etiquetas.
+             */
 
-                    rx += vector.x;
-                    ry += vector.y;
+            const espacioX =
+                centroX - 85;
 
-                }
-            );
-
-
-            // =========================================
-            // ESCALA
-            // =========================================
-
-            let mayor = 5;
-
-
-            vectores.forEach(
-                function (vector) {
-
-                    mayor =
-                        Math.max(
-
-                            mayor,
-
-                            Math.abs(vector.x),
-
-                            Math.abs(vector.y),
-
-                            vector.magnitud
-
-                        );
-
-                }
-            );
-
-
-            mayor =
-                Math.max(
-
-                    mayor,
-
-                    Math.abs(rx),
-
-                    Math.abs(ry)
-
-                );
-
-
-            const espacio =
-                Math.min(
-                    canvas.width,
-                    canvas.height
-                ) / 2 - 110;
+            const espacioY =
+                centroY - 70;
 
 
             const escala =
-                espacio / mayor;
+                Math.min(
+                    espacioX,
+                    espacioY
+                ) /
+                configuracion.maxValor;
 
 
-            // =========================================
+            // =============================================
             // CUADRÍCULA
-            // =========================================
+            // =============================================
+
+            dibujarCuadricula(
+                centroX,
+                centroY
+            );
+
+
+            // =============================================
+            // EJES
+            // =============================================
+
+            dibujarEjes(
+                centroX,
+                centroY
+            );
+
+
+            // =============================================
+            // ARCOS
+            // =============================================
+
+            vectores.forEach(
+                function (vector, index) {
+
+                    const color =
+                        colores[
+                            index %
+                            colores.length
+                        ];
+
+
+                    dibujarArcoAngulo(
+                        centroX,
+                        centroY,
+                        vector.angulo,
+                        color,
+                        index
+                    );
+
+                }
+            );
+
+
+            // =============================================
+            // VECTORES
+            // =============================================
+
+            vectores.forEach(
+                function (vector, index) {
+
+                    const color =
+                        colores[
+                            index %
+                            colores.length
+                        ];
+
+
+                    dibujarVector(
+                        centroX,
+                        centroY,
+                        vector,
+                        escala,
+                        color,
+                        vector.nombre,
+                        false
+                    );
+
+                }
+            );
+
+
+            // =============================================
+            // RESULTANTE
+            // =============================================
+
+            if (vectores.length > 1) {
+
+                const r =
+                    obtenerResultante();
+
+
+                if (r.magnitud > 0.000001) {
+
+                    dibujarVector(
+                        centroX,
+                        centroY,
+                        {
+                            x: r.x,
+                            y: r.y,
+                            magnitud: r.magnitud,
+                            angulo: r.angulo,
+                            unidad:
+                                vectores[0].unidad
+                        },
+                        escala,
+                        '#0f172a',
+                        'Resultante',
+                        true
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        // =====================================================
+        // CUADRÍCULA
+        // =====================================================
+
+        function dibujarCuadricula(
+            centroX,
+            centroY
+        ) {
 
             ctx.strokeStyle = '#e2e8f0';
-
             ctx.lineWidth = 1;
 
 
@@ -1071,59 +1159,65 @@
 
             }
 
+        }
 
-            // =========================================
-            // EJES
-            // =========================================
+
+        // =====================================================
+        // EJES
+        // =====================================================
+
+        function dibujarEjes(
+            centroX,
+            centroY
+        ) {
 
             ctx.strokeStyle = '#334155';
-
             ctx.lineWidth = 2;
 
 
+            // EJE X
+
             ctx.beginPath();
 
             ctx.moveTo(
-                20,
+                15,
                 centroY
             );
 
             ctx.lineTo(
-                canvas.width - 20,
+                canvas.width - 15,
                 centroY
             );
 
             ctx.stroke();
 
 
+            // EJE Y
+
             ctx.beginPath();
 
             ctx.moveTo(
                 centroX,
-                20
+                15
             );
 
             ctx.lineTo(
                 centroX,
-                canvas.height - 20
+                canvas.height - 15
             );
 
             ctx.stroke();
 
-
-            // =========================================
-            // FLECHAS
-            // =========================================
 
             dibujarFlechaEje(
-                canvas.width - 20,
+                canvas.width - 15,
                 centroY,
                 0
             );
 
 
             dibujarFlechaEje(
-                20,
+                15,
                 centroY,
                 Math.PI
             );
@@ -1131,14 +1225,14 @@
 
             dibujarFlechaEje(
                 centroX,
-                20,
+                15,
                 -Math.PI / 2
             );
 
 
             dibujarFlechaEje(
                 centroX,
-                canvas.height - 20,
+                canvas.height - 15,
                 Math.PI / 2
             );
 
@@ -1148,137 +1242,12 @@
                 centroY
             );
 
-
-            // =========================================
-            // ARCOS
-            // =========================================
-
-            vectores.forEach(
-                function (vector, index) {
-
-                    const color =
-                        colores[
-                            index %
-                            colores.length
-                        ];
-
-
-                    dibujarArcoAngulo(
-
-                        centroX,
-
-                        centroY,
-
-                        vector.angulo,
-
-                        color,
-
-                        index
-
-                    );
-
-                }
-            );
-
-
-            // =========================================
-            // VECTORES
-            // =========================================
-
-            vectores.forEach(
-                function (vector, index) {
-
-                    const color =
-                        colores[
-                            index %
-                            colores.length
-                        ];
-
-
-                    dibujarVector(
-
-                        centroX,
-
-                        centroY,
-
-                        vector,
-
-                        escala,
-
-                        color,
-
-                        vector.nombre,
-
-                        false
-
-                    );
-
-                }
-            );
-
-
-            // =========================================
-            // RESULTANTE
-            // =========================================
-
-            if (vectores.length > 1) {
-
-                const magnitudR =
-                    Math.sqrt(
-                        rx * rx +
-                        ry * ry
-                    );
-
-
-                if (magnitudR > 0.000001) {
-
-                    let anguloR =
-                        Math.atan2(
-                            ry,
-                            rx
-                        ) * 180 / Math.PI;
-
-
-                    anguloR =
-                        normalizarAngulo(
-                            anguloR
-                        );
-
-
-                    dibujarVector(
-
-                        centroX,
-
-                        centroY,
-
-                        {
-                            x: rx,
-                            y: ry,
-                            magnitud: magnitudR,
-                            angulo: anguloR,
-                            unidad: vectores[0].unidad
-                        },
-
-                        escala,
-
-                        '#0f172a',
-
-                        'Resultante',
-
-                        true
-
-                    );
-
-                }
-
-            }
-
         }
 
 
-        // =============================================
-        // REFERENCIAS DE LOS EJES
-        // =============================================
+        // =====================================================
+        // REFERENCIAS
+        // =====================================================
 
         function dibujarReferenciasEjes(
             centroX,
@@ -1287,20 +1256,20 @@
 
             ctx.save();
 
-
-            // +X
-            ctx.textAlign = 'right';
-
             ctx.fillStyle = '#334155';
 
             ctx.font =
-                'bold 15px Arial';
+                'bold 14px Arial';
 
+
+            // +X
+
+            ctx.textAlign = 'right';
 
             ctx.fillText(
                 '+X',
-                canvas.width - 28,
-                centroY - 14
+                canvas.width - 25,
+                centroY - 13
             );
 
 
@@ -1312,24 +1281,25 @@
 
             ctx.fillText(
                 '0° / 360°',
-                canvas.width - 28,
+                canvas.width - 25,
                 centroY + 20
             );
 
 
             // -X
+
             ctx.textAlign = 'left';
 
             ctx.fillStyle = '#334155';
 
             ctx.font =
-                'bold 15px Arial';
+                'bold 14px Arial';
 
 
             ctx.fillText(
                 '-X',
-                28,
-                centroY - 14
+                25,
+                centroY - 13
             );
 
 
@@ -1341,22 +1311,25 @@
 
             ctx.fillText(
                 '180°',
-                28,
+                25,
                 centroY + 20
             );
 
 
             // +Y
+
+            ctx.textAlign = 'left';
+
             ctx.fillStyle = '#334155';
 
             ctx.font =
-                'bold 15px Arial';
+                'bold 14px Arial';
 
 
             ctx.fillText(
                 '+Y',
                 centroX + 12,
-                32
+                30
             );
 
 
@@ -1369,15 +1342,16 @@
             ctx.fillText(
                 '90°',
                 centroX + 12,
-                49
+                47
             );
 
 
             // -Y
+
             ctx.fillStyle = '#334155';
 
             ctx.font =
-                'bold 15px Arial';
+                'bold 14px Arial';
 
 
             ctx.fillText(
@@ -1401,6 +1375,7 @@
 
 
             // ORIGEN
+
             ctx.fillStyle = '#334155';
 
             ctx.font =
@@ -1419,9 +1394,9 @@
         }
 
 
-        // =============================================
+        // =====================================================
         // ARCO DEL ÁNGULO
-        // =============================================
+        // =====================================================
 
         function dibujarArcoAngulo(
             centroX,
@@ -1441,23 +1416,18 @@
                 grados < 0.01 ||
                 grados > 359.99
             ) {
-
                 return;
-
             }
 
 
             const radianes =
-                grados * Math.PI / 180;
+                grados *
+                Math.PI / 180;
 
-
-            /*
-             * Cada arco utiliza un radio diferente.
-             */
 
             const radio =
-                32 +
-                (index % 5) * 15;
+                30 +
+                (index % 5) * 14;
 
 
             ctx.save();
@@ -1485,10 +1455,6 @@
 
             ctx.stroke();
 
-
-            // =========================================
-            // TEXTO DEL ÁNGULO
-            // =========================================
 
             const mitad =
                 radianes / 2;
@@ -1519,28 +1485,26 @@
                 'bold 11px Arial';
 
 
-            const anchoTexto =
+            const ancho =
                 ctx.measureText(
                     texto
                 ).width;
 
 
             ctx.fillStyle =
-                'rgba(255,255,255,0.94)';
+                'rgba(255,255,255,.95)';
 
 
             ctx.fillRect(
-
                 textoX -
-                anchoTexto / 2 -
+                ancho / 2 -
                 4,
 
                 textoY - 9,
 
-                anchoTexto + 8,
+                ancho + 8,
 
                 18
-
             );
 
 
@@ -1563,9 +1527,9 @@
         }
 
 
-        // =============================================
+        // =====================================================
         // DIBUJAR VECTOR
-        // =============================================
+        // =====================================================
 
         function dibujarVector(
             inicioX,
@@ -1579,27 +1543,24 @@
 
             const finalX =
                 inicioX +
-                vector.x * escala;
+                vector.x *
+                escala;
 
 
             const finalY =
                 inicioY -
-                vector.y * escala;
+                vector.y *
+                escala;
 
 
             const anguloLinea =
                 Math.atan2(
-
                     finalY - inicioY,
-
                     finalX - inicioX
-
                 );
 
 
-            // =========================================
             // LÍNEA
-            // =========================================
 
             ctx.beginPath();
 
@@ -1640,11 +1601,12 @@
             ctx.setLineDash([]);
 
 
-            // =========================================
             // PUNTA
-            // =========================================
 
-            const tamaño = 13;
+            const tamaño =
+                resultante
+                    ? 15
+                    : 13;
 
 
             ctx.beginPath();
@@ -1701,12 +1663,10 @@
             ctx.fill();
 
 
-            // =========================================
             // INFORMACIÓN
-            // =========================================
 
             const titulo =
-                nombre;
+                nombre || 'Vector';
 
 
             const magnitudTexto =
@@ -1727,10 +1687,6 @@
                 ) +
                 '°';
 
-
-            // =========================================
-            // MEDIR TEXTO
-            // =========================================
 
             ctx.font =
                 'bold 14px Arial';
@@ -1760,50 +1716,33 @@
 
             const anchoCaja =
                 Math.max(
-
                     anchoTitulo,
-
                     anchoMagnitud,
-
                     anchoAngulo
-
                 ) + 28;
 
 
             const altoCaja = 70;
 
 
-            // =========================================
-            // POSICIÓN
-            // =========================================
-
             const posicion =
                 buscarPosicionEtiqueta(
-
                     finalX,
-
                     finalY,
-
                     anchoCaja,
-
                     altoCaja,
-
                     vector
-
                 );
 
 
             const cajaX =
                 posicion.x;
 
-
             const cajaY =
                 posicion.y;
 
 
-            // =========================================
             // CONECTOR
-            // =========================================
 
             ctx.strokeStyle = color;
 
@@ -1816,55 +1755,41 @@
 
             ctx.beginPath();
 
-
             ctx.moveTo(
                 finalX,
                 finalY
             );
 
-
             ctx.lineTo(
-
                 cajaX +
                 anchoCaja / 2,
 
                 cajaY +
                 altoCaja / 2
-
             );
-
 
             ctx.stroke();
 
             ctx.setLineDash([]);
 
 
-            // =========================================
             // CAJA
-            // =========================================
 
             ctx.beginPath();
 
 
             dibujarRectanguloRedondeado(
-
                 ctx,
-
                 cajaX,
-
                 cajaY,
-
                 anchoCaja,
-
                 altoCaja,
-
                 8
-
             );
 
 
             ctx.fillStyle =
-                'rgba(255,255,255,0.97)';
+                'rgba(255,255,255,.97)';
 
 
             ctx.fill();
@@ -1877,9 +1802,7 @@
             ctx.stroke();
 
 
-            // =========================================
             // TEXTO
-            // =========================================
 
             ctx.textAlign = 'left';
 
@@ -1893,13 +1816,9 @@
 
 
             ctx.fillText(
-
                 titulo,
-
                 cajaX + 12,
-
                 cajaY + 20
-
             );
 
 
@@ -1910,32 +1829,24 @@
 
 
             ctx.fillText(
-
                 magnitudTexto,
-
                 cajaX + 12,
-
                 cajaY + 42
-
             );
 
 
             ctx.fillText(
-
                 anguloTexto,
-
                 cajaX + 12,
-
                 cajaY + 61
-
             );
 
         }
 
 
-        // =============================================
+        // =====================================================
         // POSICIÓN DE ETIQUETAS
-        // =============================================
+        // =====================================================
 
         function buscarPosicionEtiqueta(
             finalX,
@@ -1945,9 +1856,27 @@
             vector
         ) {
 
-            const distancia = 18;
+            const distancia = 16;
 
             let candidatos = [];
+
+
+            const derecha =
+                finalX + distancia;
+
+            const izquierda =
+                finalX -
+                ancho -
+                distancia;
+
+            const arriba =
+                finalY -
+                alto -
+                distancia;
+
+            const abajo =
+                finalY +
+                distancia;
 
 
             if (
@@ -1956,27 +1885,22 @@
             ) {
 
                 candidatos = [
-
                     {
-                        x: finalX + distancia,
-                        y: finalY - alto - distancia
+                        x: derecha,
+                        y: arriba
                     },
-
                     {
-                        x: finalX + distancia,
-                        y: finalY + distancia
+                        x: derecha,
+                        y: abajo
                     },
-
                     {
-                        x: finalX - ancho - distancia,
-                        y: finalY - alto - distancia
+                        x: izquierda,
+                        y: arriba
                     },
-
                     {
-                        x: finalX - ancho - distancia,
-                        y: finalY + distancia
+                        x: izquierda,
+                        y: abajo
                     }
-
                 ];
 
             }
@@ -1987,27 +1911,22 @@
             ) {
 
                 candidatos = [
-
                     {
-                        x: finalX - ancho - distancia,
-                        y: finalY - alto - distancia
+                        x: izquierda,
+                        y: arriba
                     },
-
                     {
-                        x: finalX - ancho - distancia,
-                        y: finalY + distancia
+                        x: izquierda,
+                        y: abajo
                     },
-
                     {
-                        x: finalX + distancia,
-                        y: finalY - alto - distancia
+                        x: derecha,
+                        y: arriba
                     },
-
                     {
-                        x: finalX + distancia,
-                        y: finalY + distancia
+                        x: derecha,
+                        y: abajo
                     }
-
                 ];
 
             }
@@ -2018,27 +1937,22 @@
             ) {
 
                 candidatos = [
-
                     {
-                        x: finalX - ancho - distancia,
-                        y: finalY + distancia
+                        x: izquierda,
+                        y: abajo
                     },
-
                     {
-                        x: finalX + distancia,
-                        y: finalY + distancia
+                        x: izquierda,
+                        y: arriba
                     },
-
                     {
-                        x: finalX - ancho - distancia,
-                        y: finalY - alto - distancia
+                        x: derecha,
+                        y: abajo
                     },
-
                     {
-                        x: finalX + distancia,
-                        y: finalY - alto - distancia
+                        x: derecha,
+                        y: arriba
                     }
-
                 ];
 
             }
@@ -2046,146 +1960,100 @@
             else {
 
                 candidatos = [
-
                     {
-                        x: finalX + distancia,
-                        y: finalY + distancia
+                        x: derecha,
+                        y: abajo
                     },
-
                     {
-                        x: finalX - ancho - distancia,
-                        y: finalY + distancia
+                        x: derecha,
+                        y: arriba
                     },
-
                     {
-                        x: finalX + distancia,
-                        y: finalY - alto - distancia
+                        x: izquierda,
+                        y: abajo
                     },
-
                     {
-                        x: finalX - ancho - distancia,
-                        y: finalY - alto - distancia
+                        x: izquierda,
+                        y: arriba
                     }
-
                 ];
 
             }
 
 
-            // POSICIONES EXTRA
+            // POSICIONES ADICIONALES
+
             for (
                 let nivel = 1;
-                nivel <= 8;
+                nivel <= 10;
                 nivel++
             ) {
 
-                const vertical =
+                const desplazamiento =
                     nivel *
-                    (alto + 14);
+                    (alto + 12);
 
 
                 candidatos.push(
-
                     {
-                        x:
-                            finalX +
-                            distancia,
-
-                        y:
-                            finalY -
-                            alto -
-                            vertical
+                        x: derecha,
+                        y: arriba -
+                            desplazamiento
                     },
-
                     {
-                        x:
-                            finalX +
-                            distancia,
-
-                        y:
-                            finalY +
-                            vertical
+                        x: derecha,
+                        y: abajo +
+                            desplazamiento
                     },
-
                     {
-                        x:
-                            finalX -
-                            ancho -
-                            distancia,
-
-                        y:
-                            finalY -
-                            alto -
-                            vertical
+                        x: izquierda,
+                        y: arriba -
+                            desplazamiento
                     },
-
                     {
-                        x:
-                            finalX -
-                            ancho -
-                            distancia,
-
-                        y:
-                            finalY +
-                            vertical
+                        x: izquierda,
+                        y: abajo +
+                            desplazamiento
                     }
-
                 );
 
             }
 
 
-            // BUSCAR POSICIÓN LIBRE
             for (
-                const candidato of candidatos
+                const candidato
+                of candidatos
             ) {
 
                 const x =
                     Math.max(
-
-                        10,
-
+                        8,
                         Math.min(
-
                             candidato.x,
-
                             canvas.width -
                             ancho -
-                            10
-
+                            8
                         )
-
                     );
 
 
                 const y =
                     Math.max(
-
-                        10,
-
+                        8,
                         Math.min(
-
                             candidato.y,
-
                             canvas.height -
                             alto -
-                            10
-
+                            8
                         )
-
                     );
 
 
                 const nuevaCaja = {
-
                     x: x,
-
                     y: y,
-
                     ancho: ancho,
-
                     alto: alto
-
                 };
 
 
@@ -2231,57 +2099,43 @@
 
 
             // FALLBACK
+
             const fallback = {
 
                 x:
                     Math.max(
-
-                        10,
-
+                        8,
                         Math.min(
-
                             finalX +
                             distancia,
 
                             canvas.width -
                             ancho -
-                            10
-
+                            8
                         )
-
                     ),
 
                 y:
                     Math.max(
-
-                        10,
-
+                        8,
                         Math.min(
-
                             finalY +
                             distancia,
 
                             canvas.height -
                             alto -
-                            10
-
+                            8
                         )
-
                     )
 
             };
 
 
             cajasEtiquetas.push({
-
                 x: fallback.x,
-
                 y: fallback.y,
-
                 ancho: ancho,
-
                 alto: alto
-
             });
 
 
@@ -2290,16 +2144,16 @@
         }
 
 
-        // =============================================
-        // DETECTAR CHOQUE
-        // =============================================
+        // =====================================================
+        // COLISIONES
+        // =====================================================
 
         function rectangulosChocan(
             a,
             b
         ) {
 
-            const margen = 12;
+            const margen = 10;
 
 
             return !(
@@ -2335,9 +2189,9 @@
         }
 
 
-        // =============================================
+        // =====================================================
         // RECTÁNGULO REDONDEADO
-        // =============================================
+        // =====================================================
 
         function dibujarRectanguloRedondeado(
             contexto,
@@ -2369,81 +2223,60 @@
 
 
             contexto.quadraticCurveTo(
-
                 x + ancho,
                 y,
-
                 x + ancho,
                 y + radio
-
             );
 
 
             contexto.lineTo(
-
                 x + ancho,
-
                 y + alto - radio
-
             );
 
 
             contexto.quadraticCurveTo(
-
                 x + ancho,
                 y + alto,
-
                 x + ancho - radio,
                 y + alto
-
             );
 
 
             contexto.lineTo(
-
                 x + radio,
-
                 y + alto
-
             );
 
 
             contexto.quadraticCurveTo(
-
                 x,
                 y + alto,
-
                 x,
                 y + alto - radio
-
             );
 
 
             contexto.lineTo(
-
                 x,
-
                 y + radio
-
             );
 
 
             contexto.quadraticCurveTo(
-
                 x,
                 y,
-
                 x + radio,
                 y
-
             );
 
         }
 
 
-        // =============================================
-        // FLECHAS DE EJES
-        // =============================================
+        // =====================================================
+        // FLECHA DEL EJE
+        // =====================================================
 
         function dibujarFlechaEje(
             x,
@@ -2510,9 +2343,259 @@
         }
 
 
-        // =============================================
+        // =====================================================
+        // GUARDAR GRÁFICO RECORTADO
+        // =====================================================
+
+        botonGuardar.addEventListener(
+            'click',
+            function () {
+
+                if (
+                    vectores.length === 0
+                ) {
+
+                    alert(
+                        'Agrega al menos un vector antes de guardar.'
+                    );
+
+                    return;
+                }
+
+
+                /*
+                 * Primero buscamos los píxeles que realmente
+                 * contienen elementos del gráfico.
+                 *
+                 * Como el fondo del canvas es blanco, detectamos
+                 * todos los píxeles que no sean casi blancos.
+                 */
+
+                const datos =
+                    ctx.getImageData(
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                    );
+
+
+                let minX =
+                    canvas.width;
+
+                let minY =
+                    canvas.height;
+
+                let maxX = 0;
+                let maxY = 0;
+
+
+                const pixeles =
+                    datos.data;
+
+
+                for (
+                    let y = 0;
+                    y < canvas.height;
+                    y++
+                ) {
+
+                    for (
+                        let x = 0;
+                        x < canvas.width;
+                        x++
+                    ) {
+
+                        const indice =
+                            (
+                                y *
+                                canvas.width +
+                                x
+                            ) * 4;
+
+
+                        const r =
+                            pixeles[indice];
+
+                        const g =
+                            pixeles[indice + 1];
+
+                        const b =
+                            pixeles[indice + 2];
+
+                        const a =
+                            pixeles[indice + 3];
+
+
+                        /*
+                         * Ignorar fondo blanco y cuadrícula
+                         * muy clara.
+                         */
+
+                        const esContenido =
+                            a > 0 &&
+                            (
+                                r < 210 ||
+                                g < 210 ||
+                                b < 210
+                            );
+
+
+                        if (esContenido) {
+
+                            minX =
+                                Math.min(
+                                    minX,
+                                    x
+                                );
+
+                            maxX =
+                                Math.max(
+                                    maxX,
+                                    x
+                                );
+
+                            minY =
+                                Math.min(
+                                    minY,
+                                    y
+                                );
+
+                            maxY =
+                                Math.max(
+                                    maxY,
+                                    y
+                                );
+
+                        }
+
+                    }
+
+                }
+
+
+                // MARGEN PEQUEÑO
+
+                const margen = 20;
+
+
+                minX =
+                    Math.max(
+                        0,
+                        minX -
+                        margen
+                    );
+
+
+                minY =
+                    Math.max(
+                        0,
+                        minY -
+                        margen
+                    );
+
+
+                maxX =
+                    Math.min(
+                        canvas.width,
+                        maxX +
+                        margen
+                    );
+
+
+                maxY =
+                    Math.min(
+                        canvas.height,
+                        maxY +
+                        margen
+                    );
+
+
+                const ancho =
+                    maxX -
+                    minX;
+
+
+                const alto =
+                    maxY -
+                    minY;
+
+
+                const exportCanvas =
+                    document.createElement(
+                        'canvas'
+                    );
+
+
+                exportCanvas.width =
+                    ancho;
+
+                exportCanvas.height =
+                    alto;
+
+
+                const exportCtx =
+                    exportCanvas.getContext(
+                        '2d'
+                    );
+
+
+                exportCtx.fillStyle =
+                    '#ffffff';
+
+
+                exportCtx.fillRect(
+                    0,
+                    0,
+                    ancho,
+                    alto
+                );
+
+
+                exportCtx.drawImage(
+
+                    canvas,
+
+                    minX,
+                    minY,
+
+                    ancho,
+                    alto,
+
+                    0,
+                    0,
+
+                    ancho,
+                    alto
+
+                );
+
+
+                const enlace =
+                    document.createElement(
+                        'a'
+                    );
+
+
+                enlace.download =
+                    'grafico-vectores.png';
+
+
+                enlace.href =
+                    exportCanvas.toDataURL(
+                        'image/png'
+                    );
+
+
+                enlace.click();
+
+            }
+        );
+
+
+        // =====================================================
         // NORMALIZAR ÁNGULO
-        // =============================================
+        // =====================================================
 
         function normalizarAngulo(
             angulo
@@ -2522,7 +2605,9 @@
                 angulo % 360;
 
 
-            if (resultado < 0) {
+            if (
+                resultado < 0
+            ) {
 
                 resultado += 360;
 
@@ -2534,9 +2619,9 @@
         }
 
 
-        // =============================================
-        // FORMATEAR NÚMERO
-        // =============================================
+        // =====================================================
+        // FORMATEAR
+        // =====================================================
 
         function formatearNumero(
             numero
@@ -2544,10 +2629,8 @@
 
             if (
                 Math.abs(
-
                     numero -
                     Math.round(numero)
-
                 ) < 0.000001
             ) {
 
@@ -2565,16 +2648,18 @@
         }
 
 
-        // =============================================
+        // =====================================================
         // ESCAPAR HTML
-        // =============================================
+        // =====================================================
 
         function escaparHTML(
             texto
         ) {
 
             const div =
-                document.createElement('div');
+                document.createElement(
+                    'div'
+                );
 
 
             div.textContent =
@@ -2586,52 +2671,38 @@
         }
 
 
-        // =============================================
-        // ENTER
-        // =============================================
-
-        nombreVectorInput.addEventListener(
-            'keydown',
-            agregarConEnter
-        );
-
-
-        magnitudInput.addEventListener(
-            'keydown',
-            agregarConEnter
-        );
-
-
-        unidadInput.addEventListener(
-            'keydown',
-            agregarConEnter
-        );
-
-
-        anguloInput.addEventListener(
-            'keydown',
-            agregarConEnter
-        );
-
-
-        function agregarConEnter(
-            event
+        function escaparAtributo(
+            texto
         ) {
 
-            if (
-                event.key === 'Enter'
-            ) {
+            return String(texto)
 
-                botonAgregar.click();
+                .replaceAll(
+                    '&',
+                    '&amp;'
+                )
 
-            }
+                .replaceAll(
+                    '"',
+                    '&quot;'
+                )
+
+                .replaceAll(
+                    '<',
+                    '&lt;'
+                )
+
+                .replaceAll(
+                    '>',
+                    '&gt;'
+                );
 
         }
 
 
-        // =============================================
+        // =====================================================
         // INICIAR
-        // =============================================
+        // =====================================================
 
         actualizar();
 
