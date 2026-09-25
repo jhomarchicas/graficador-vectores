@@ -3,27 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>VectorLab - Graficador de Vectores</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     >
-
     <style>
         canvas {
             display: block;
             max-width: 100%;
         }
-
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
             opacity: 1;
         }
-
         .vector-input {
             width: 100%;
             min-width: 70px;
@@ -34,12 +28,10 @@
             background: white;
             transition: .2s;
         }
-
         .vector-input:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 2px rgba(59, 130, 246, .15);
         }
-
         @media (max-width: 640px) {
             .vector-input {
                 min-width: 80px;
@@ -49,69 +41,50 @@
         }
     </style>
 </head>
-
 <body class="bg-slate-100 text-slate-800 min-h-screen">
-
     <!-- NAVBAR -->
     <nav class="bg-slate-900 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-
             <div>
                 <h1 class="text-lg sm:text-xl font-bold">
                     <i class="bi bi-vector-pen mr-2"></i>
                     VectorLab
                 </h1>
-
                 <p class="text-xs text-slate-400">
                     Graficador de vectores
                 </p>
             </div>
-
             <span class="hidden sm:block text-sm text-slate-300">
                 Física
             </span>
-
         </div>
     </nav>
-
-
     <!-- CONTENIDO -->
     <main class="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
-
         <!-- ENCABEZADO -->
         <div class="mb-6 sm:mb-8">
-
             <p class="text-blue-600 font-semibold text-xs sm:text-sm uppercase tracking-wider">
                 Herramienta interactiva
             </p>
-
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mt-2">
                 Graficador de vectores
             </h2>
-
             <p class="text-sm sm:text-base text-slate-500 mt-2 max-w-3xl">
                 Agrega tus vectores en la tabla y modifica sus datos cuando quieras.
                 El gráfico y la resultante se actualizarán automáticamente.
             </p>
-
         </div>
-
-
         <!-- TABLA DE ENTRADA -->
         <section class="bg-white rounded-2xl border border-slate-200 overflow-hidden mb-6">
-
             <div class="px-4 sm:px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-
                 <div>
                     <h3 class="font-bold text-lg">
                         Vectores
                     </h3>
-
                     <p class="text-sm text-slate-500 mt-1">
                         Puedes editar cualquier dato después de agregarlo.
                     </p>
                 </div>
-
                 <button
                     id="agregarVector"
                     class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl px-5 py-2.5 transition"
@@ -119,161 +92,110 @@
                     <i class="bi bi-plus-lg mr-2"></i>
                     Agregar vector
                 </button>
-
             </div>
-
-
             <div class="overflow-x-auto">
-
                 <table class="w-full text-sm min-w-[850px]">
-
                     <thead class="bg-slate-50 text-slate-500">
-
                         <tr>
                             <th class="text-left px-4 py-3">
                                 #
                             </th>
-
                             <th class="text-left px-4 py-3">
                                 Nombre
                             </th>
-
                             <th class="text-left px-4 py-3">
                                 Magnitud
                             </th>
-
-                            <th class="text-left px-4 py-3">
-                                Unidad
-                            </th>
-
                             <th class="text-left px-4 py-3">
                                 Ángulo
                             </th>
-
+                            <th class="text-left px-4 py-3">
+                                Unidad
+                            </th>
                             <th class="text-left px-4 py-3">
                                 X
                             </th>
-
                             <th class="text-left px-4 py-3">
                                 Y
                             </th>
-
                             <th class="px-4 py-3"></th>
                         </tr>
-
                     </thead>
-
                     <tbody id="tablaVectores"></tbody>
-
                 </table>
-
             </div>
-
-
             <div class="px-4 sm:px-6 py-3 bg-slate-50 border-t border-slate-200">
-
                 <p class="text-xs text-slate-500">
                     <i class="bi bi-info-circle mr-1"></i>
                     Los ángulos se miden desde el eje X positivo:
                     0° derecha, 90° arriba, 180° izquierda y 270° abajo.
                 </p>
-
             </div>
-
         </section>
-
-
         <!-- RESULTADO -->
         <section class="bg-slate-900 text-white rounded-2xl p-4 sm:p-6 mb-6">
-
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
-
                 <div class="flex items-center gap-3">
-
                     <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
                         <i class="bi bi-arrow-up-right text-lg"></i>
                     </div>
-
                     <div>
                         <p class="text-xs text-slate-400 uppercase">
                             Resultado
                         </p>
-
                         <h3 class="font-bold">
                             Vector resultante
                         </h3>
                     </div>
-
                 </div>
-
-
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 w-full md:w-auto">
-
                     <div class="bg-white/10 rounded-xl px-3 sm:px-5 py-3">
                         <p class="text-xs text-slate-400">
                             Rx
                         </p>
-
                         <p id="resultadoX" class="font-bold text-base sm:text-lg whitespace-nowrap">
                             0.00
                         </p>
                     </div>
-
                     <div class="bg-white/10 rounded-xl px-3 sm:px-5 py-3">
                         <p class="text-xs text-slate-400">
                             Ry
                         </p>
-
                         <p id="resultadoY" class="font-bold text-base sm:text-lg whitespace-nowrap">
                             0.00
                         </p>
                     </div>
-
                     <div class="bg-white/10 rounded-xl px-3 sm:px-5 py-3">
                         <p class="text-xs text-slate-400">
                             Magnitud
                         </p>
-
                         <p id="resultadoMagnitud" class="font-bold text-base sm:text-lg whitespace-nowrap">
                             0.00
                         </p>
                     </div>
-
                     <div class="bg-white/10 rounded-xl px-3 sm:px-5 py-3">
                         <p class="text-xs text-slate-400">
                             Dirección
                         </p>
-
                         <p id="resultadoAngulo" class="font-bold text-base sm:text-lg whitespace-nowrap">
                             0.00°
                         </p>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
-
         <!-- GRÁFICO -->
         <section class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-
             <div class="px-4 sm:px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
-
                 <div>
                     <h3 class="font-bold">
                         Plano cartesiano
                     </h3>
-
                     <p class="text-sm text-slate-500">
                         Representación gráfica de los vectores
                     </p>
                 </div>
-
-
                 <div class="grid grid-cols-2 sm:flex gap-2">
-
                     <button
                         id="guardarGrafico"
                         class="text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-3 sm:px-4 py-2 transition"
@@ -281,7 +203,6 @@
                         <i class="bi bi-download mr-1"></i>
                         Guardar
                     </button>
-
                     <button
                         id="limpiar"
                         class="text-xs sm:text-sm border border-slate-300 rounded-lg px-3 sm:px-4 py-2 hover:bg-slate-100 transition"
@@ -289,57 +210,36 @@
                         <i class="bi bi-trash3 mr-1"></i>
                         Limpiar
                     </button>
-
                 </div>
-
             </div>
-
-
             <div class="p-2 sm:p-4 overflow-x-auto">
-
                 <canvas
                     id="canvas"
                     width="1000"
                     height="650"
                     class="w-full bg-white rounded-xl"
                 ></canvas>
-
             </div>
-
         </section>
-
     </main>
-
-
     <script>
-
         // =====================================================
         // VARIABLES
         // =====================================================
-
         let vectores = [];
-
         let cajasEtiquetas = [];
-
         const canvas =
             document.getElementById('canvas');
-
         const ctx =
             canvas.getContext('2d');
-
         const tabla =
             document.getElementById('tablaVectores');
-
         const botonAgregar =
             document.getElementById('agregarVector');
-
         const botonLimpiar =
             document.getElementById('limpiar');
-
         const botonGuardar =
             document.getElementById('guardarGrafico');
-
-
         const colores = [
             '#2563eb',
             '#dc2626',
@@ -352,14 +252,10 @@
             '#65a30d',
             '#c026d3'
         ];
-
-
         // =====================================================
         // AGREGAR VECTOR
         // =====================================================
-
         botonAgregar.addEventListener('click', function () {
-
             vectores.push({
                 nombre: obtenerNombreAutomatico(),
                 magnitud: 1,
@@ -368,37 +264,23 @@
                 x: 1,
                 y: 0
             });
-
             actualizar();
-
             setTimeout(() => {
-
                 const inputs =
                     tabla.querySelectorAll('.input-nombre');
-
                 if (inputs.length > 0) {
-
                     const ultimo =
                         inputs[inputs.length - 1];
-
                     ultimo.focus();
                     ultimo.select();
-
                 }
-
             }, 20);
-
         });
-
-
         // =====================================================
         // NOMBRE AUTOMÁTICO
         // =====================================================
-
         function obtenerNombreAutomatico() {
-
             let numero = 1;
-
             while (
                 vectores.some(
                     vector =>
@@ -407,165 +289,102 @@
             ) {
                 numero++;
             }
-
             return 'V' + numero;
         }
-
-
         // =====================================================
         // ELIMINAR
         // =====================================================
-
         function eliminarVector(index) {
-
             vectores.splice(index, 1);
-
             actualizar();
-
         }
-
-
         // =====================================================
         // LIMPIAR
         // =====================================================
-
         botonLimpiar.addEventListener('click', function () {
-
             if (vectores.length === 0) {
                 return;
             }
-
             if (
                 confirm(
                     '¿Quieres eliminar todos los vectores?'
                 )
             ) {
-
                 vectores = [];
-
                 actualizar();
-
             }
-
         });
-
-
         // =====================================================
         // ACTUALIZAR TODO
         // =====================================================
-
         function actualizar() {
-
             recalcularVectores();
-
             actualizarTabla();
-
             calcularResultante();
-
             dibujarPlano();
-
         }
-
-
         // =====================================================
         // RECALCULAR COMPONENTES
         // =====================================================
-
         function recalcularVectores() {
-
             vectores.forEach(function (vector) {
-
                 const radianes =
                     vector.angulo * Math.PI / 180;
-
                 vector.x =
                     vector.magnitud *
                     Math.cos(radianes);
-
                 vector.y =
                     vector.magnitud *
                     Math.sin(radianes);
-
             });
-
         }
-
-
         // =====================================================
         // TABLA
         // =====================================================
-
         function actualizarTabla() {
-
             tabla.innerHTML = '';
-
-
             if (vectores.length === 0) {
-
                 tabla.innerHTML = `
                     <tr>
                         <td
                             colspan="8"
                             class="text-center text-slate-400 py-10"
                         >
-
                             <i class="bi bi-vector-pen text-2xl"></i>
-
                             <p class="mt-2">
                                 Todavía no has agregado vectores.
                             </p>
-
                             <p class="text-xs mt-1">
                                 Presiona "Agregar vector" para comenzar.
                             </p>
-
                         </td>
                     </tr>
                 `;
-
                 return;
             }
-
-
             vectores.forEach(function (vector, index) {
-
                 const color =
                     colores[
                         index %
                         colores.length
                     ];
-
-
                 const fila =
                     document.createElement('tr');
-
-
                 fila.className =
                     'border-t border-slate-100';
-
-
                 fila.innerHTML = `
-
                     <td class="px-4 py-3">
-
                         <div class="flex items-center gap-2">
-
                             <span
                                 class="w-3 h-3 rounded-full shrink-0"
                                 style="background:${color}"
                             ></span>
-
                             <span class="font-semibold">
                                 ${index + 1}
                             </span>
-
                         </div>
-
                     </td>
-
-
                     <td class="px-4 py-3">
-
                         <input
                             type="text"
                             maxlength="25"
@@ -573,12 +392,8 @@
                             class="vector-input input-nombre"
                             oninput="editarVector(${index}, 'nombre', this.value)"
                         >
-
                     </td>
-
-
                     <td class="px-4 py-3">
-
                         <input
                             type="number"
                             step="any"
@@ -587,27 +402,9 @@
                             class="vector-input"
                             oninput="editarVector(${index}, 'magnitud', this.value)"
                         >
-
                     </td>
-
-
                     <td class="px-4 py-3">
-
-                        <input
-                            type="text"
-                            maxlength="12"
-                            value="${escaparAtributo(vector.unidad)}"
-                            class="vector-input"
-                            oninput="editarVector(${index}, 'unidad', this.value)"
-                        >
-
-                    </td>
-
-
-                    <td class="px-4 py-3">
-
                         <div class="relative">
-
                             <input
                                 type="number"
                                 step="any"
@@ -615,413 +412,271 @@
                                 class="vector-input pr-7"
                                 oninput="editarVector(${index}, 'angulo', this.value)"
                             >
-
                             <span
                                 class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
                             >
                                 °
                             </span>
-
                         </div>
-
                     </td>
-
-
+                    <td class="px-4 py-3">
+                        <input
+                            type="text"
+                            maxlength="12"
+                            value="${escaparAtributo(vector.unidad)}"
+                            class="vector-input"
+                            oninput="editarVector(${index}, 'unidad', this.value)"
+                        >
+                    </td>
                     <td class="px-4 py-3 whitespace-nowrap font-medium">
-
                         ${vector.x.toFixed(2)}
                         ${escaparHTML(vector.unidad)}
-
                     </td>
-
-
                     <td class="px-4 py-3 whitespace-nowrap font-medium">
-
                         ${vector.y.toFixed(2)}
                         ${escaparHTML(vector.unidad)}
-
                     </td>
-
-
                     <td class="px-4 py-3 text-right">
-
                         <button
                             onclick="eliminarVector(${index})"
                             class="w-9 h-9 rounded-lg text-red-500 hover:text-white hover:bg-red-500 transition"
                             title="Eliminar vector"
                         >
-
                             <i class="bi bi-trash3"></i>
-
                         </button>
-
                     </td>
-
                 `;
-
-
                 tabla.appendChild(fila);
-
             });
-
         }
-
-
         // =====================================================
         // EDITAR VECTOR SIN RECONSTRUIR INPUT
         // =====================================================
-
         function editarVector(
             index,
             propiedad,
             valor
         ) {
-
             if (!vectores[index]) {
                 return;
             }
-
-
             if (
                 propiedad === 'magnitud' ||
                 propiedad === 'angulo'
             ) {
-
                 const numero =
                     parseFloat(valor);
-
-
                 if (isNaN(numero)) {
                     return;
                 }
-
-
                 if (
                     propiedad === 'magnitud' &&
                     numero <= 0
                 ) {
                     return;
                 }
-
-
                 vectores[index][propiedad] =
                     numero;
-
             }
-
             else {
-
                 vectores[index][propiedad] =
                     valor;
-
             }
-
-
             recalcularVectores();
-
             actualizarComponentesTabla();
-
             calcularResultante();
-
             dibujarPlano();
-
         }
-
-
         // =====================================================
         // ACTUALIZAR SOLO X / Y DE TABLA
         // =====================================================
-
         function actualizarComponentesTabla() {
-
             const filas =
                 tabla.querySelectorAll('tr');
-
-
             vectores.forEach(function (vector, index) {
-
                 const fila =
                     filas[index];
-
-
                 if (!fila) {
                     return;
                 }
-
-
                 const celdas =
                     fila.querySelectorAll('td');
-
-
                 if (celdas.length < 7) {
                     return;
                 }
-
-
                 celdas[5].innerHTML =
                     `${vector.x.toFixed(2)} ${escaparHTML(vector.unidad)}`;
-
-
                 celdas[6].innerHTML =
                     `${vector.y.toFixed(2)} ${escaparHTML(vector.unidad)}`;
-
             });
-
         }
-
-
         // =====================================================
         // RESULTANTE
         // =====================================================
-
         function obtenerResultante() {
-
             let rx = 0;
             let ry = 0;
-
-
             vectores.forEach(function (vector) {
-
                 rx += vector.x;
                 ry += vector.y;
-
             });
-
-
             const magnitud =
                 Math.sqrt(
                     rx * rx +
                     ry * ry
                 );
-
-
             let angulo = 0;
-
-
             if (magnitud > 0.000001) {
-
                 angulo =
                     Math.atan2(
                         ry,
                         rx
                     ) * 180 / Math.PI;
-
-
                 angulo =
                     normalizarAngulo(angulo);
-
             }
-
-
             return {
                 x: rx,
                 y: ry,
                 magnitud: magnitud,
                 angulo: angulo
             };
-
         }
-
-
         function calcularResultante() {
-
             const resultado =
                 obtenerResultante();
-
-
             const unidad =
                 vectores.length
                     ? vectores[0].unidad
                     : '';
-
-
             document
                 .getElementById('resultadoX')
                 .textContent =
                     resultado.x.toFixed(2) +
                     (unidad ? ' ' + unidad : '');
-
-
             document
                 .getElementById('resultadoY')
                 .textContent =
                     resultado.y.toFixed(2) +
                     (unidad ? ' ' + unidad : '');
-
-
             document
                 .getElementById('resultadoMagnitud')
                 .textContent =
                     resultado.magnitud.toFixed(2) +
                     (unidad ? ' ' + unidad : '');
-
-
             document
                 .getElementById('resultadoAngulo')
                 .textContent =
                     resultado.angulo.toFixed(2) +
                     '°';
-
         }
-
-
         // =====================================================
         // CONFIGURACIÓN DEL PLANO
         // =====================================================
-
         function obtenerConfiguracionPlano() {
-
             let maxX = 1;
             let maxY = 1;
-
-
             vectores.forEach(function (vector) {
-
                 maxX =
                     Math.max(
                         maxX,
                         Math.abs(vector.x)
                     );
-
                 maxY =
                     Math.max(
                         maxY,
                         Math.abs(vector.y)
                     );
-
             });
-
-
             if (vectores.length > 1) {
-
                 const r =
                     obtenerResultante();
-
-
                 maxX =
                     Math.max(
                         maxX,
                         Math.abs(r.x)
                     );
-
-
                 maxY =
                     Math.max(
                         maxY,
                         Math.abs(r.y)
                     );
-
             }
-
-
             const maxValor =
                 Math.max(
                     maxX,
                     maxY,
                     1
                 );
-
-
             return {
                 maxValor: maxValor
             };
-
         }
-
-
         // =====================================================
         // DIBUJAR PLANO
         // =====================================================
-
         function dibujarPlano() {
-
+            canvas.height = 650;
+            prepararDistribucion();
             cajasEtiquetas = [];
-
-
             ctx.clearRect(
                 0,
                 0,
                 canvas.width,
                 canvas.height
             );
-
-
             ctx.fillStyle = '#ffffff';
-
             ctx.fillRect(
                 0,
                 0,
                 canvas.width,
                 canvas.height
             );
-
-
             const centroX =
                 canvas.width / 2;
-
             const centroY =
                 canvas.height / 2;
-
-
             const configuracion =
                 obtenerConfiguracionPlano();
-
-
             /*
              * Se utiliza casi todo el espacio disponible.
              * Solo dejamos un margen suficiente para puntas,
              * ángulos y etiquetas.
              */
-
             const espacioX =
                 centroX - 85;
-
             const espacioY =
                 centroY - 70;
-
-
             const escala =
                 Math.min(
                     espacioX,
                     espacioY
                 ) /
                 configuracion.maxValor;
-
-
             // =============================================
             // CUADRÍCULA
             // =============================================
-
             dibujarCuadricula(
                 centroX,
                 centroY
             );
-
-
             // =============================================
             // EJES
             // =============================================
-
             dibujarEjes(
                 centroX,
                 centroY
             );
-
-
             // =============================================
             // ARCOS
             // =============================================
-
             vectores.forEach(
                 function (vector, index) {
-
                     const color =
                         colores[
                             index %
                             colores.length
                         ];
-
-
                     dibujarArcoAngulo(
                         centroX,
                         centroY,
@@ -1029,25 +684,18 @@
                         color,
                         index
                     );
-
                 }
             );
-
-
             // =============================================
             // VECTORES
             // =============================================
-
             vectores.forEach(
                 function (vector, index) {
-
                     const color =
                         colores[
                             index %
                             colores.length
                         ];
-
-
                     dibujarVector(
                         centroX,
                         centroY,
@@ -1057,23 +705,15 @@
                         vector.nombre,
                         false
                     );
-
                 }
             );
-
-
             // =============================================
             // RESULTANTE
             // =============================================
-
             if (vectores.length > 1) {
-
                 const r =
                     obtenerResultante();
-
-
                 if (r.magnitud > 0.000001) {
-
                     dibujarVector(
                         centroX,
                         centroY,
@@ -1090,314 +730,193 @@
                         'Resultante',
                         true
                     );
-
                 }
-
             }
-
+            distribuirEtiquetas();
         }
-
-
         // =====================================================
         // CUADRÍCULA
         // =====================================================
-
         function dibujarCuadricula(
             centroX,
             centroY
         ) {
-
             ctx.strokeStyle = '#e2e8f0';
             ctx.lineWidth = 1;
-
-
             const separacion = 50;
-
-
             for (
                 let x = centroX % separacion;
                 x < canvas.width;
                 x += separacion
             ) {
-
                 ctx.beginPath();
-
                 ctx.moveTo(
                     x,
                     0
                 );
-
                 ctx.lineTo(
                     x,
                     canvas.height
                 );
-
                 ctx.stroke();
-
             }
-
-
             for (
                 let y = centroY % separacion;
                 y < canvas.height;
                 y += separacion
             ) {
-
                 ctx.beginPath();
-
                 ctx.moveTo(
                     0,
                     y
                 );
-
                 ctx.lineTo(
                     canvas.width,
                     y
                 );
-
                 ctx.stroke();
-
             }
-
         }
-
-
         // =====================================================
         // EJES
         // =====================================================
-
         function dibujarEjes(
             centroX,
             centroY
         ) {
-
             ctx.strokeStyle = '#334155';
-            ctx.lineWidth = 2;
-
-
+            ctx.lineWidth = 3;
             // EJE X
-
             ctx.beginPath();
-
             ctx.moveTo(
                 15,
                 centroY
             );
-
             ctx.lineTo(
                 canvas.width - 15,
                 centroY
             );
-
             ctx.stroke();
-
-
             // EJE Y
-
             ctx.beginPath();
-
             ctx.moveTo(
                 centroX,
                 15
             );
-
             ctx.lineTo(
                 centroX,
                 canvas.height - 15
             );
-
             ctx.stroke();
-
-
             dibujarFlechaEje(
                 canvas.width - 15,
                 centroY,
                 0
             );
-
-
             dibujarFlechaEje(
                 15,
                 centroY,
                 Math.PI
             );
-
-
             dibujarFlechaEje(
                 centroX,
                 15,
                 -Math.PI / 2
             );
-
-
             dibujarFlechaEje(
                 centroX,
                 canvas.height - 15,
                 Math.PI / 2
             );
-
-
             dibujarReferenciasEjes(
                 centroX,
                 centroY
             );
-
         }
-
-
         // =====================================================
         // REFERENCIAS
         // =====================================================
-
         function dibujarReferenciasEjes(
             centroX,
             centroY
         ) {
-
             ctx.save();
-
             ctx.fillStyle = '#334155';
-
             ctx.font =
-                'bold 14px Arial';
-
-
+                'bold 19px Arial';
             // +X
-
             ctx.textAlign = 'right';
-
             ctx.fillText(
                 '+X',
                 canvas.width - 25,
                 centroY - 13
             );
-
-
             ctx.fillStyle = '#64748b';
-
             ctx.font =
-                '12px Arial';
-
-
+                'bold 16px Arial';
             ctx.fillText(
                 '0° / 360°',
                 canvas.width - 25,
                 centroY + 20
             );
-
-
             // -X
-
             ctx.textAlign = 'left';
-
             ctx.fillStyle = '#334155';
-
             ctx.font =
-                'bold 14px Arial';
-
-
+                'bold 19px Arial';
             ctx.fillText(
                 '-X',
                 25,
                 centroY - 13
             );
-
-
             ctx.fillStyle = '#64748b';
-
             ctx.font =
-                '12px Arial';
-
-
+                'bold 16px Arial';
             ctx.fillText(
                 '180°',
                 25,
                 centroY + 20
             );
-
-
             // +Y
-
             ctx.textAlign = 'left';
-
             ctx.fillStyle = '#334155';
-
             ctx.font =
-                'bold 14px Arial';
-
-
+                'bold 19px Arial';
             ctx.fillText(
                 '+Y',
                 centroX + 12,
                 30
             );
-
-
             ctx.fillStyle = '#64748b';
-
             ctx.font =
-                '12px Arial';
-
-
+                'bold 16px Arial';
             ctx.fillText(
                 '90°',
                 centroX + 12,
                 47
             );
-
-
             // -Y
-
             ctx.fillStyle = '#334155';
-
             ctx.font =
-                'bold 14px Arial';
-
-
+                'bold 19px Arial';
             ctx.fillText(
                 '-Y',
                 centroX + 12,
                 canvas.height - 31
             );
-
-
             ctx.fillStyle = '#64748b';
-
             ctx.font =
-                '12px Arial';
-
-
+                'bold 16px Arial';
             ctx.fillText(
                 '270°',
                 centroX + 12,
                 canvas.height - 14
             );
-
-
-            // ORIGEN
-
-            ctx.fillStyle = '#334155';
-
-            ctx.font =
-                '12px Arial';
-
-
-            ctx.fillText(
-                'O',
-                centroX + 7,
-                centroY + 17
-            );
-
-
             ctx.restore();
-
         }
-
-
         // =====================================================
         // ARCO DEL ÁNGULO
         // =====================================================
-
         function dibujarArcoAngulo(
             centroX,
             centroY,
@@ -1405,44 +924,27 @@
             color,
             index
         ) {
-
             const grados =
                 normalizarAngulo(
                     anguloGrados
                 );
-
-
             if (
                 grados < 0.01 ||
                 grados > 359.99
             ) {
                 return;
             }
-
-
             const radianes =
                 grados *
                 Math.PI / 180;
-
-
             const radio =
-                30 +
-                (index % 5) * 14;
-
-
+                36 +
+                index * Math.min(22, 200 / Math.max(1, vectores.length - 1));
             ctx.save();
-
-
             ctx.strokeStyle = color;
-
-            ctx.lineWidth = 2;
-
+            ctx.lineWidth = 3.5;
             ctx.setLineDash([]);
-
-
             ctx.beginPath();
-
-
             ctx.arc(
                 centroX,
                 centroY,
@@ -1451,86 +953,35 @@
                 -radianes,
                 true
             );
-
-
             ctx.stroke();
-
-
             const mitad =
                 radianes / 2;
-
-
             const radioTexto =
                 radio + 14;
-
-
             const textoX =
                 centroX +
                 Math.cos(mitad) *
                 radioTexto;
-
-
             const textoY =
                 centroY -
                 Math.sin(mitad) *
                 radioTexto;
-
-
             const texto =
                 formatearNumero(grados) +
                 '°';
-
-
-            ctx.font =
-                'bold 11px Arial';
-
-
-            const ancho =
-                ctx.measureText(
-                    texto
-                ).width;
-
-
-            ctx.fillStyle =
-                'rgba(255,255,255,.95)';
-
-
-            ctx.fillRect(
-                textoX -
-                ancho / 2 -
-                4,
-
-                textoY - 9,
-
-                ancho + 8,
-
-                18
-            );
-
-
-            ctx.fillStyle = color;
-
-            ctx.textAlign = 'center';
-
-            ctx.textBaseline = 'middle';
-
-
-            ctx.fillText(
-                texto,
-                textoX,
-                textoY
-            );
-
-
+            for (let paso = 0; paso < radianes; paso += 0.025) {
+                const fin = Math.min(paso + 0.025, radianes);
+                obstaculosLineas.push([
+                    centroX + Math.cos(paso) * radio, centroY - Math.sin(paso) * radio,
+                    centroX + Math.cos(fin) * radio, centroY - Math.sin(fin) * radio
+                ]);
+            }
+            etiquetasPendientes.push({x: textoX, y: textoY, color, textos: [texto], arco: true});
             ctx.restore();
-
         }
-
-
         // =====================================================
         // DIBUJAR VECTOR
         // =====================================================
-
         function dibujarVector(
             inicioX,
             inicioY,
@@ -1540,135 +991,89 @@
             nombre,
             resultante = false
         ) {
-
             const finalX =
                 inicioX +
                 vector.x *
                 escala;
-
-
             const finalY =
                 inicioY -
                 vector.y *
                 escala;
-
-
             const anguloLinea =
                 Math.atan2(
                     finalY - inicioY,
                     finalX - inicioX
                 );
-
-
+            const longitud = Math.hypot(finalX - inicioX, finalY - inicioY);
+            const ampliarDireccion = resultante && longitud < 65;
             // LÍNEA
-
             ctx.beginPath();
-
             ctx.moveTo(
                 inicioX,
                 inicioY
             );
-
             ctx.lineTo(
                 finalX,
                 finalY
             );
-
-
             ctx.strokeStyle = color;
-
             ctx.lineWidth =
                 resultante
-                    ? 4
-                    : 3;
-
-
-            if (resultante) {
-
+                    ? Math.min(8, Math.max(2, longitud / 5))
+                    : 6;
+            if (resultante && !ampliarDireccion) {
                 ctx.setLineDash(
                     [10, 6]
                 );
-
             } else {
-
                 ctx.setLineDash([]);
-
             }
-
-
             ctx.stroke();
-
             ctx.setLineDash([]);
-
-
             // PUNTA
-
             const tamaño =
                 resultante
-                    ? 15
-                    : 13;
-
-
+                    ? Math.min(24, longitud * 0.55)
+                    : 20;
             ctx.beginPath();
-
-
             ctx.moveTo(
                 finalX,
                 finalY
             );
-
-
             ctx.lineTo(
-
                 finalX -
                 tamaño *
                 Math.cos(
                     anguloLinea -
                     Math.PI / 6
                 ),
-
                 finalY -
                 tamaño *
                 Math.sin(
                     anguloLinea -
                     Math.PI / 6
                 )
-
             );
-
-
             ctx.lineTo(
-
                 finalX -
                 tamaño *
                 Math.cos(
                     anguloLinea +
                     Math.PI / 6
                 ),
-
                 finalY -
                 tamaño *
                 Math.sin(
                     anguloLinea +
                     Math.PI / 6
                 )
-
             );
-
-
             ctx.closePath();
-
             ctx.fillStyle = color;
-
             ctx.fill();
-
-
             // INFORMACIÓN
-
             const titulo =
                 nombre || 'Vector';
-
-
             const magnitudTexto =
                 'M = ' +
                 formatearNumero(
@@ -1676,8 +1081,6 @@
                 ) +
                 ' ' +
                 vector.unidad;
-
-
             const anguloTexto =
                 'θ = ' +
                 formatearNumero(
@@ -1686,513 +1089,149 @@
                     )
                 ) +
                 '°';
-
-
-            ctx.font =
-                'bold 14px Arial';
-
-
-            const anchoTitulo =
-                ctx.measureText(
-                    titulo
-                ).width;
-
-
-            ctx.font =
-                '13px Arial';
-
-
-            const anchoMagnitud =
-                ctx.measureText(
-                    magnitudTexto
-                ).width;
-
-
-            const anchoAngulo =
-                ctx.measureText(
-                    anguloTexto
-                ).width;
-
-
-            const anchoCaja =
-                Math.max(
-                    anchoTitulo,
-                    anchoMagnitud,
-                    anchoAngulo
-                ) + 28;
-
-
-            const altoCaja = 70;
-
-
-            const posicion =
-                buscarPosicionEtiqueta(
-                    finalX,
-                    finalY,
-                    anchoCaja,
-                    altoCaja,
-                    vector
-                );
-
-
-            const cajaX =
-                posicion.x;
-
-            const cajaY =
-                posicion.y;
-
-
-            // CONECTOR
-
-            ctx.strokeStyle = color;
-
-            ctx.lineWidth = 1;
-
-            ctx.setLineDash(
-                [3, 3]
-            );
-
-
-            ctx.beginPath();
-
-            ctx.moveTo(
-                finalX,
-                finalY
-            );
-
-            ctx.lineTo(
-                cajaX +
-                anchoCaja / 2,
-
-                cajaY +
-                altoCaja / 2
-            );
-
-            ctx.stroke();
-
-            ctx.setLineDash([]);
-
-
-            // CAJA
-
-            ctx.beginPath();
-
-
-            dibujarRectanguloRedondeado(
-                ctx,
-                cajaX,
-                cajaY,
-                anchoCaja,
-                altoCaja,
-                8
-            );
-
-
-            ctx.fillStyle =
-                'rgba(255,255,255,.97)';
-
-
-            ctx.fill();
-
-
-            ctx.strokeStyle = color;
-
-            ctx.lineWidth = 1.5;
-
-            ctx.stroke();
-
-
-            // TEXTO
-
-            ctx.textAlign = 'left';
-
-            ctx.textBaseline = 'alphabetic';
-
-
-            ctx.fillStyle = color;
-
-            ctx.font =
-                'bold 14px Arial';
-
-
-            ctx.fillText(
-                titulo,
-                cajaX + 12,
-                cajaY + 20
-            );
-
-
-            ctx.fillStyle = '#334155';
-
-            ctx.font =
-                '13px Arial';
-
-
-            ctx.fillText(
-                magnitudTexto,
-                cajaX + 12,
-                cajaY + 42
-            );
-
-
-            ctx.fillText(
-                anguloTexto,
-                cajaX + 12,
-                cajaY + 61
-            );
-
-        }
-
-
-        // =====================================================
-        // POSICIÓN DE ETIQUETAS
-        // =====================================================
-
-        function buscarPosicionEtiqueta(
-            finalX,
-            finalY,
-            ancho,
-            alto,
-            vector
-        ) {
-
-            const distancia = 16;
-
-            let candidatos = [];
-
-
-            const derecha =
-                finalX + distancia;
-
-            const izquierda =
-                finalX -
-                ancho -
-                distancia;
-
-            const arriba =
-                finalY -
-                alto -
-                distancia;
-
-            const abajo =
-                finalY +
-                distancia;
-
-
-            if (
-                vector.x >= 0 &&
-                vector.y >= 0
-            ) {
-
-                candidatos = [
-                    {
-                        x: derecha,
-                        y: arriba
-                    },
-                    {
-                        x: derecha,
-                        y: abajo
-                    },
-                    {
-                        x: izquierda,
-                        y: arriba
-                    },
-                    {
-                        x: izquierda,
-                        y: abajo
-                    }
-                ];
-
-            }
-
-            else if (
-                vector.x < 0 &&
-                vector.y >= 0
-            ) {
-
-                candidatos = [
-                    {
-                        x: izquierda,
-                        y: arriba
-                    },
-                    {
-                        x: izquierda,
-                        y: abajo
-                    },
-                    {
-                        x: derecha,
-                        y: arriba
-                    },
-                    {
-                        x: derecha,
-                        y: abajo
-                    }
-                ];
-
-            }
-
-            else if (
-                vector.x < 0 &&
-                vector.y < 0
-            ) {
-
-                candidatos = [
-                    {
-                        x: izquierda,
-                        y: abajo
-                    },
-                    {
-                        x: izquierda,
-                        y: arriba
-                    },
-                    {
-                        x: derecha,
-                        y: abajo
-                    },
-                    {
-                        x: derecha,
-                        y: arriba
-                    }
-                ];
-
-            }
-
-            else {
-
-                candidatos = [
-                    {
-                        x: derecha,
-                        y: abajo
-                    },
-                    {
-                        x: derecha,
-                        y: arriba
-                    },
-                    {
-                        x: izquierda,
-                        y: abajo
-                    },
-                    {
-                        x: izquierda,
-                        y: arriba
-                    }
-                ];
-
-            }
-
-
-            // POSICIONES ADICIONALES
-
-            for (
-                let nivel = 1;
-                nivel <= 10;
-                nivel++
-            ) {
-
-                const desplazamiento =
-                    nivel *
-                    (alto + 12);
-
-
-                candidatos.push(
-                    {
-                        x: derecha,
-                        y: arriba -
-                            desplazamiento
-                    },
-                    {
-                        x: derecha,
-                        y: abajo +
-                            desplazamiento
-                    },
-                    {
-                        x: izquierda,
-                        y: arriba -
-                            desplazamiento
-                    },
-                    {
-                        x: izquierda,
-                        y: abajo +
-                            desplazamiento
-                    }
-                );
-
-            }
-
-
-            for (
-                const candidato
-                of candidatos
-            ) {
-
-                const x =
-                    Math.max(
-                        8,
-                        Math.min(
-                            candidato.x,
-                            canvas.width -
-                            ancho -
-                            8
-                        )
-                    );
-
-
-                const y =
-                    Math.max(
-                        8,
-                        Math.min(
-                            candidato.y,
-                            canvas.height -
-                            alto -
-                            8
-                        )
-                    );
-
-
-                const nuevaCaja = {
-                    x: x,
-                    y: y,
-                    ancho: ancho,
-                    alto: alto
-                };
-
-
-                let choca = false;
-
-
-                for (
-                    const caja
-                    of cajasEtiquetas
-                ) {
-
-                    if (
-                        rectangulosChocan(
-                            nuevaCaja,
-                            caja
-                        )
-                    ) {
-
-                        choca = true;
-
-                        break;
-
-                    }
-
-                }
-
-
-                if (!choca) {
-
-                    cajasEtiquetas.push(
-                        nuevaCaja
-                    );
-
-
-                    return {
-                        x: x,
-                        y: y
-                    };
-
-                }
-
-            }
-
-
-            // FALLBACK
-
-            const fallback = {
-
-                x:
-                    Math.max(
-                        8,
-                        Math.min(
-                            finalX +
-                            distancia,
-
-                            canvas.width -
-                            ancho -
-                            8
-                        )
-                    ),
-
-                y:
-                    Math.max(
-                        8,
-                        Math.min(
-                            finalY +
-                            distancia,
-
-                            canvas.height -
-                            alto -
-                            8
-                        )
-                    )
-
-            };
-
-
-            cajasEtiquetas.push({
-                x: fallback.x,
-                y: fallback.y,
-                ancho: ancho,
-                alto: alto
+            obstaculosLineas.push([inicioX, inicioY, finalX, finalY]);
+            cajasEtiquetas.push({x: finalX - 16, y: finalY - 16, ancho: 32, alto: 32});
+            etiquetasPendientes.push({
+                x: finalX, y: finalY, color,
+                textos: [titulo, magnitudTexto, anguloTexto], arco: false,
+                ampliarDireccion, anguloDireccion: anguloLinea
             });
-
-
-            return fallback;
-
         }
-
-
-        // =====================================================
-        // COLISIONES
-        // =====================================================
-
+        let etiquetasPendientes = [], obstaculosLineas = [];
+        function prepararDistribucion() {
+            etiquetasPendientes = [];
+            obstaculosLineas = [];
+        }
+        function cruzaCaja(linea, caja, margen = 8) {
+            const [x1, y1, x2, y2] = linea;
+            const izq = caja.x - margen, der = caja.x + caja.ancho + margen;
+            const sup = caja.y - margen, inf = caja.y + caja.alto + margen;
+            let entrada = 0, salida = 1;
+            const dx = x2 - x1, dy = y2 - y1;
+            for (const [p, q] of [[-dx, x1-izq], [dx, der-x1], [-dy, y1-sup], [dy, inf-y1]]) {
+                if (Math.abs(p) < 1e-9) { if (q < 0) return false; }
+                else {
+                    const r = q / p;
+                    if (p < 0) entrada = Math.max(entrada, r);
+                    else salida = Math.min(salida, r);
+                    if (entrada > salida) return false;
+                }
+            }
+            return true;
+        }
+        function distribuirEtiquetas() {
+            const w = canvas.width, h = canvas.height, cx = w / 2, cy = h / 2;
+            obstaculosLineas.push([15,cy,w-15,cy], [cx,15,cx,h-15]);
+            // Reserve axes, degree references and origin before placing any text.
+            cajasEtiquetas.push(
+                {x: 12,y: cy-40,ancho: 100,alto: 70},
+                {x: w-140,y: cy-40,ancho: 128,alto: 70},
+                {x: cx-12,y: 8,ancho: 80,alto: 50},
+                {x: cx-12,y: h-55,ancho: 80,alto: 50},
+                {x: cx-12,y: cy-10,ancho: 45,alto: 40}
+            );
+            const colocadas = [];
+            let extraY = h + 16;
+            for (const etiqueta of etiquetasPendientes) {
+                const fuentes = etiqueta.arco ? ['bold 17px Arial'] :
+                    ['bold 20px Arial','bold 17px Arial','bold 17px Arial'];
+                const anchoTexto = Math.max(...etiqueta.textos.map((texto, i) => {
+                    ctx.font = fuentes[i]; return ctx.measureText(texto).width;
+                })) + (etiqueta.arco ? 12 : 28);
+                const ancho = Math.max(anchoTexto, etiqueta.ampliarDireccion ? 265 : 0);
+                const alto = etiqueta.arco ? 28 : (etiqueta.ampliarDireccion ? 218 : 88);
+                let mejor = null, distancia = Infinity;
+                for (let y = 10; y + alto <= h - 10; y += 8) {
+                    for (let x = 10; x + ancho <= w - 10; x += 8) {
+                        const caja = {x, y, ancho, alto};
+                        const d = Math.hypot(x+ancho/2-etiqueta.x, y+alto/2-etiqueta.y);
+                        if (d >= distancia || cajasEtiquetas.some(c => rectangulosChocan(caja,c)) ||
+                            obstaculosLineas.some(l => cruzaCaja(l,caja))) continue;
+                        mejor = caja; distancia = d;
+                    }
+                }
+                // When the plot is crowded, add space instead of covering existing information.
+                if (!mejor) {
+                    mejor = {x: 16, y: extraY, ancho, alto};
+                    extraY += alto + 14;
+                }
+                cajasEtiquetas.push(mejor);
+                colocadas.push({...etiqueta, ...mejor, fuentes});
+            }
+            if (extraY > h + 16) {
+                const copia = document.createElement('canvas');
+                copia.width = w; copia.height = h;
+                copia.getContext('2d').drawImage(canvas,0,0);
+                canvas.height = extraY;
+                ctx.fillStyle = '#fff'; ctx.fillRect(0,0,w,extraY);
+                ctx.drawImage(copia,0,0);
+            }
+            for (const e of colocadas) {
+                ctx.save(); ctx.beginPath();
+                dibujarRectanguloRedondeado(ctx,e.x,e.y,e.ancho,e.alto,7);
+                ctx.fillStyle = '#fff'; ctx.fill();
+                if (!e.arco) { ctx.strokeStyle=e.color; ctx.lineWidth=1.8; ctx.stroke(); }
+                ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+                e.textos.forEach((texto,i) => {
+                    ctx.font=e.fuentes[i]; ctx.fillStyle=i===0 ? e.color : '#334155';
+                    ctx.fillText(texto,e.x+(e.arco?6:14),e.y+(e.arco?20:[25,52,76][i]));
+                });
+                if (e.ampliarDireccion) dibujarDireccionAmpliada(e);
+                ctx.restore();
+            }
+        }
+        function dibujarDireccionAmpliada(e) {
+            const x = e.x + e.ancho / 2, y = e.y + 150;
+            ctx.setLineDash([]);
+            ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
+            ctx.beginPath(); ctx.moveTo(e.x+14,e.y+89); ctx.lineTo(e.x+e.ancho-14,e.y+89);
+            ctx.moveTo(x-49,y); ctx.lineTo(x+49,y);
+            ctx.moveTo(x,y-43); ctx.lineTo(x,y+37); ctx.stroke();
+            ctx.font = 'bold 13px Arial'; ctx.fillStyle = '#64748b';
+            ctx.textAlign = 'left';
+            ctx.fillText('+X',x+52,y+5); ctx.fillText('+Y',x+6,y-37);
+            const angulo = e.anguloDireccion;
+            const fx = x + 40 * Math.cos(angulo), fy = y + 40 * Math.sin(angulo);
+            ctx.strokeStyle = e.color; ctx.fillStyle = e.color; ctx.lineWidth = 5;
+            ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(fx,fy); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(fx,fy);
+            ctx.lineTo(fx-13*Math.cos(angulo-Math.PI/6),fy-13*Math.sin(angulo-Math.PI/6));
+            ctx.lineTo(fx-13*Math.cos(angulo+Math.PI/6),fy-13*Math.sin(angulo+Math.PI/6));
+            ctx.closePath(); ctx.fill();
+            ctx.beginPath(); ctx.arc(x,y,3,0,2*Math.PI); ctx.fill();
+            ctx.textAlign = 'center'; ctx.font = 'bold 15px Arial';
+            ctx.fillText('Dirección ampliada · sin escala',x,e.y+204);
+        }
         function rectangulosChocan(
             a,
             b
         ) {
-
             const margen = 10;
-
-
             return !(
-
                 a.x +
                 a.ancho +
                 margen <
                 b.x
-
                 ||
-
                 a.x >
                 b.x +
                 b.ancho +
                 margen
-
                 ||
-
                 a.y +
                 a.alto +
                 margen <
                 b.y
-
                 ||
-
                 a.y >
                 b.y +
                 b.alto +
                 margen
-
             );
-
         }
-
-
         // =====================================================
         // RECTÁNGULO REDONDEADO
         // =====================================================
-
         function dibujarRectanguloRedondeado(
             contexto,
             x,
@@ -2201,168 +1240,117 @@
             alto,
             radio
         ) {
-
             radio =
                 Math.min(
                     radio,
                     ancho / 2,
                     alto / 2
                 );
-
-
             contexto.moveTo(
                 x + radio,
                 y
             );
-
-
             contexto.lineTo(
                 x + ancho - radio,
                 y
             );
-
-
             contexto.quadraticCurveTo(
                 x + ancho,
                 y,
                 x + ancho,
                 y + radio
             );
-
-
             contexto.lineTo(
                 x + ancho,
                 y + alto - radio
             );
-
-
             contexto.quadraticCurveTo(
                 x + ancho,
                 y + alto,
                 x + ancho - radio,
                 y + alto
             );
-
-
             contexto.lineTo(
                 x + radio,
                 y + alto
             );
-
-
             contexto.quadraticCurveTo(
                 x,
                 y + alto,
                 x,
                 y + alto - radio
             );
-
-
             contexto.lineTo(
                 x,
                 y + radio
             );
-
-
             contexto.quadraticCurveTo(
                 x,
                 y,
                 x + radio,
                 y
             );
-
         }
-
-
         // =====================================================
         // FLECHA DEL EJE
         // =====================================================
-
         function dibujarFlechaEje(
             x,
             y,
             angulo
         ) {
-
             const tamaño = 10;
-
-
             ctx.fillStyle = '#334155';
-
             ctx.beginPath();
-
-
             ctx.moveTo(
                 x,
                 y
             );
-
-
             ctx.lineTo(
-
                 x -
                 tamaño *
                 Math.cos(
                     angulo -
                     Math.PI / 6
                 ),
-
                 y -
                 tamaño *
                 Math.sin(
                     angulo -
                     Math.PI / 6
                 )
-
             );
-
-
             ctx.lineTo(
-
                 x -
                 tamaño *
                 Math.cos(
                     angulo +
                     Math.PI / 6
                 ),
-
                 y -
                 tamaño *
                 Math.sin(
                     angulo +
                     Math.PI / 6
                 )
-
             );
-
-
             ctx.closePath();
-
             ctx.fill();
-
         }
-
-
         // =====================================================
         // GUARDAR GRÁFICO RECORTADO
         // =====================================================
-
         botonGuardar.addEventListener(
             'click',
             function () {
-
                 if (
                     vectores.length === 0
                 ) {
-
                     alert(
                         'Agrega al menos un vector antes de guardar.'
                     );
-
                     return;
                 }
-
-
                 /*
                  * Primero buscamos los píxeles que realmente
                  * contienen elementos del gráfico.
@@ -2370,7 +1358,6 @@
                  * Como el fondo del canvas es blanco, detectamos
                  * todos los píxeles que no sean casi blancos.
                  */
-
                 const datos =
                     ctx.getImageData(
                         0,
@@ -2378,60 +1365,42 @@
                         canvas.width,
                         canvas.height
                     );
-
-
                 let minX =
                     canvas.width;
-
                 let minY =
                     canvas.height;
-
                 let maxX = 0;
                 let maxY = 0;
-
-
                 const pixeles =
                     datos.data;
-
-
                 for (
                     let y = 0;
                     y < canvas.height;
                     y++
                 ) {
-
                     for (
                         let x = 0;
                         x < canvas.width;
                         x++
                     ) {
-
                         const indice =
                             (
                                 y *
                                 canvas.width +
                                 x
                             ) * 4;
-
-
                         const r =
                             pixeles[indice];
-
                         const g =
                             pixeles[indice + 1];
-
                         const b =
                             pixeles[indice + 2];
-
                         const a =
                             pixeles[indice + 3];
-
-
                         /*
                          * Ignorar fondo blanco y cuadrícula
                          * muy clara.
                          */
-
                         const esContenido =
                             a > 0 &&
                             (
@@ -2439,274 +1408,180 @@
                                 g < 210 ||
                                 b < 210
                             );
-
-
                         if (esContenido) {
-
                             minX =
                                 Math.min(
                                     minX,
                                     x
                                 );
-
                             maxX =
                                 Math.max(
                                     maxX,
                                     x
                                 );
-
                             minY =
                                 Math.min(
                                     minY,
                                     y
                                 );
-
                             maxY =
                                 Math.max(
                                     maxY,
                                     y
                                 );
-
                         }
-
                     }
-
                 }
-
-
                 // MARGEN PEQUEÑO
-
                 const margen = 20;
-
-
                 minX =
                     Math.max(
                         0,
                         minX -
                         margen
                     );
-
-
                 minY =
                     Math.max(
                         0,
                         minY -
                         margen
                     );
-
-
                 maxX =
                     Math.min(
                         canvas.width,
                         maxX +
                         margen
                     );
-
-
                 maxY =
                     Math.min(
                         canvas.height,
                         maxY +
                         margen
                     );
-
-
                 const ancho =
                     maxX -
                     minX;
-
-
                 const alto =
                     maxY -
                     minY;
-
-
                 const exportCanvas =
                     document.createElement(
                         'canvas'
                     );
-
-
                 exportCanvas.width =
                     ancho;
-
                 exportCanvas.height =
                     alto;
-
-
                 const exportCtx =
                     exportCanvas.getContext(
                         '2d'
                     );
-
-
                 exportCtx.fillStyle =
                     '#ffffff';
-
-
                 exportCtx.fillRect(
                     0,
                     0,
                     ancho,
                     alto
                 );
-
-
                 exportCtx.drawImage(
-
                     canvas,
-
                     minX,
                     minY,
-
                     ancho,
                     alto,
-
                     0,
                     0,
-
                     ancho,
                     alto
-
                 );
-
-
                 const enlace =
                     document.createElement(
                         'a'
                     );
-
-
                 enlace.download =
                     'grafico-vectores.png';
-
-
                 enlace.href =
                     exportCanvas.toDataURL(
                         'image/png'
                     );
-
-
                 enlace.click();
-
             }
         );
-
-
         // =====================================================
         // NORMALIZAR ÁNGULO
         // =====================================================
-
         function normalizarAngulo(
             angulo
         ) {
-
             let resultado =
                 angulo % 360;
-
-
             if (
                 resultado < 0
             ) {
-
                 resultado += 360;
-
             }
-
-
             return resultado;
-
         }
-
-
         // =====================================================
         // FORMATEAR
         // =====================================================
-
         function formatearNumero(
             numero
         ) {
-
             if (
                 Math.abs(
                     numero -
                     Math.round(numero)
                 ) < 0.000001
             ) {
-
                 return Math.round(
                     numero
                 );
-
             }
-
-
             return Number(
                 numero.toFixed(2)
             );
-
         }
-
-
         // =====================================================
         // ESCAPAR HTML
         // =====================================================
-
         function escaparHTML(
             texto
         ) {
-
             const div =
                 document.createElement(
                     'div'
                 );
-
-
             div.textContent =
                 texto;
-
-
             return div.innerHTML;
-
         }
-
-
         function escaparAtributo(
             texto
         ) {
-
             return String(texto)
-
                 .replaceAll(
                     '&',
                     '&amp;'
                 )
-
                 .replaceAll(
                     '"',
                     '&quot;'
                 )
-
                 .replaceAll(
                     '<',
                     '&lt;'
                 )
-
                 .replaceAll(
                     '>',
                     '&gt;'
                 );
-
         }
-
-
         // =====================================================
         // INICIAR
         // =====================================================
-
         actualizar();
-
     </script>
-
 </body>
 </html>
